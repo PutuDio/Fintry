@@ -19,6 +19,20 @@ export const metadata: Metadata = {
   icons: [
     { rel: "icon", url: "/Icon.svg" },
   ],
+  openGraph: {
+    title: "Fintry — Kelola Keuangan Pribadi via Chat",
+    description:
+      "Catat pemasukan, pengeluaran, transfer, dan investasi lewat percakapan bahasa Indonesia.",
+    images: ["/og.png"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fintry — Kelola Keuangan Pribadi via Chat",
+    description:
+      "Catat pemasukan, pengeluaran, transfer, dan investasi lewat percakapan bahasa Indonesia.",
+    images: ["/og.png"],
+  },
   manifest: "/manifest.json",
 };
 
