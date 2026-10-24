@@ -13,6 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  icons: [
+    { rel: "icon", url: "/Icon.svg" },
+  ],
   title: "Fintry — Kelola Keuangan Pribadi via Chat",
   description:
     "Catat pemasukan, pengeluaran, transfer, dan investasi lewat percakapan bahasa Indonesia.",
