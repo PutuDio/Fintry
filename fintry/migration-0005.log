@@ -1,0 +1,18 @@
+No config path provided, using default 'drizzle.config.ts'
+Reading config file 'E:\Dio Web Program\Fintry\fintry\drizzle.config.ts'
+◇ injected env (3) from .env.local
+12 tables
+asset_adjustments 9 columns 2 indexes 2 fks
+assets 9 columns 2 indexes 1 fks
+audit_log 9 columns 2 indexes 1 fks
+accounts 13 columns 0 indexes 1 fks
+rate_limits 4 columns 0 indexes 0 fks
+sessions 8 columns 0 indexes 1 fks
+users 7 columns 0 indexes 0 fks
+verifications 6 columns 0 indexes 0 fks
+categories 4 columns 1 indexes 1 fks
+idempotency_keys 6 columns 1 indexes 1 fks
+transactions 14 columns 3 indexes 5 fks
+pending_intents 9 columns 1 indexes 1 fks
+
+[✓] Your SQL migration file ➜ drizzle\0005_tiresome_exiles.sql 🚀

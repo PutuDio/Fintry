@@ -1,0 +1,318 @@
+[WebServer] ◇ injected env (3) from .env.local
+[WebServer] [e2e-db] migration db_fintry_e2e siap
+[WebServer] (node:13552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] ▲ Next.js 16.3.8 (Turbopack)
+[WebServer] - Local:         http://localhost:3100
+[WebServer] - Network:       http://192.168.1.72:3100
+[WebServer] - Environments: .env.local
+[WebServer] ✓ Ready in 1731ms
+[WebServer] ✓ Running next.config.ts took 1193ms
+[WebServer] ⚠ Slow filesystem detected. The benchmark took 338ms. If \\?\E:\Dio Web Program\Fintry\fintry\.next\dev is a network drive, consider moving it to a local folder.
+[WebServer] See more: https://nextjs.org/docs/app/guides/local-development
+[WebServer] 
+[WebServer] ○ Compiling / ...
+[WebServer] (node:22872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+[WebServer]  GET / 200 in 31.0s (next.js: 27.9s, application-code: 3.1s)
+(node:28036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /register 200 in 263ms (next.js: 166ms, application-code: 96ms)
+[WebServer] (node:21448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  POST /api/auth/sign-up/email 200 in 3.8s (next.js: 3.3s, application-code: 427ms)
+[WebServer]  GET / 200 in 121ms (next.js: 34ms, application-code: 87ms)
+[WebServer]  GET / 200 in 149ms (next.js: 18ms, application-code: 131ms)
+[WebServer]  GET /dashboard 200 in 672ms (next.js: 350ms, application-code: 322ms)
+[WebServer]  GET /dashboard 200 in 276ms (next.js: 13ms, application-code: 263ms)
+  ok 1 [chromium] › e2e\auth.spec.ts:5:7 › Autentikasi › registrasi akun baru langsung masuk ke dashboard (6.3s)
+[WebServer]  GET /dashboard 200 in 117ms (next.js: 7ms, application-code: 110ms)
+[WebServer]  GET /login 200 in 832ms (next.js: 735ms, application-code: 98ms)
+  ok 2 [chromium] › e2e\auth.spec.ts:13:7 › Autentikasi › dashboard dialihkan ke login bila belum punya sesi (1.8s)
+[WebServer]  GET /register 200 in 62ms (next.js: 16ms, application-code: 47ms)
+[WebServer]  POST /api/auth/sign-up/email 200 in 206ms (next.js: 22ms, application-code: 184ms)
+[WebServer]  GET / 200 in 44ms (next.js: 8ms, application-code: 36ms)
+[WebServer]  GET / 200 in 44ms (next.js: 10ms, application-code: 35ms)
+[WebServer] (node:25112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /dashboard 200 in 201ms (next.js: 45ms, application-code: 156ms)
+[WebServer]  GET /dashboard 200 in 153ms (next.js: 8ms, application-code: 145ms)
+[WebServer]  POST /api/auth/sign-out 200 in 49ms (next.js: 7ms, application-code: 42ms)
+[WebServer]  GET /login 200 in 38ms (next.js: 12ms, application-code: 27ms)
+[WebServer]  GET /login 200 in 50ms (next.js: 11ms, application-code: 39ms)
+  ok 3 [chromium] › e2e\auth.spec.ts:19:7 › Autentikasi › logout mengembalikan pengguna ke halaman login (1.9s)
+[WebServer]  GET /register 200 in 44ms (next.js: 8ms, application-code: 36ms)
+[WebServer]  POST /api/auth/sign-up/email 200 in 135ms (next.js: 20ms, application-code: 114ms)
+[WebServer]  GET / 200 in 58ms (next.js: 11ms, application-code: 47ms)
+[WebServer]  GET / 200 in 47ms (next.js: 10ms, application-code: 37ms)
+[WebServer] (node:28048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /dashboard 200 in 176ms (next.js: 8ms, application-code: 167ms)
+[WebServer]  GET /dashboard 200 in 160ms (next.js: 12ms, application-code: 148ms)
+[WebServer]  POST /api/auth/sign-out 200 in 86ms (next.js: 40ms, application-code: 46ms)
+[WebServer]  GET /login 200 in 106ms (next.js: 28ms, application-code: 77ms)
+[WebServer]  GET /login 200 in 78ms (next.js: 24ms, application-code: 53ms)
+[WebServer]  GET /login 200 in 368ms (next.js: 57ms, application-code: 311ms)
+[WebServer] (node:7328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  POST /api/auth/sign-in/email 200 in 292ms (next.js: 39ms, application-code: 253ms)
+[WebServer]  GET / 200 in 263ms (next.js: 60ms, application-code: 204ms)
+[WebServer]  GET / 200 in 172ms (next.js: 47ms, application-code: 125ms)
+[WebServer]  GET /dashboard 200 in 367ms (next.js: 45ms, application-code: 322ms)
+[WebServer]  GET /dashboard 200 in 235ms (next.js: 26ms, application-code: 209ms)
+  ok 4 [chromium] › e2e\auth.spec.ts:27:7 › Autentikasi › user terdaftar dapat login kembali (4.6s)
+[WebServer]  GET /register 200 in 75ms (next.js: 7ms, application-code: 68ms)
+[WebServer]  POST /api/auth/sign-up/email 429 in 92ms (next.js: 48ms, application-code: 44ms)
+[WebServer] (node:13872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  x  5 [chromium] › e2e\auth.spec.ts:36:7 › Autentikasi › password salah menampilkan pesan error dan tetap di halaman login (46.1s)
+(node:15032) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /register 200 in 63ms (next.js: 12ms, application-code: 51ms)
+[WebServer]  POST /api/auth/sign-up/email 200 in 235ms (next.js: 33ms, application-code: 202ms)
+[WebServer]  GET / 200 in 52ms (next.js: 6ms, application-code: 46ms)
+[WebServer]  GET / 200 in 50ms (next.js: 11ms, application-code: 39ms)
+[WebServer] (node:19424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /dashboard 200 in 248ms (next.js: 9ms, application-code: 239ms)
+[WebServer]  GET /dashboard 200 in 245ms (next.js: 8ms, application-code: 237ms)
+[WebServer]  POST /api/auth/sign-out 200 in 63ms (next.js: 7ms, application-code: 56ms)
+[WebServer]  GET /login 200 in 50ms (next.js: 11ms, application-code: 39ms)
+[WebServer]  GET /login 200 in 47ms (next.js: 10ms, application-code: 37ms)
+[WebServer]  POST /api/auth/sign-in/email 200 in 84ms (next.js: 19ms, application-code: 65ms)
+  ok 6 [chromium] › e2e\auth.spec.ts:36:7 › Autentikasi › password salah menampilkan pesan error dan tetap di halaman login (retry #1) (2.1s)
+[WebServer] 2026-10-22T07:57:10.095Z WARN [Better Auth]: Invalid password
+[WebServer]  GET /register 200 in 62ms (next.js: 9ms, application-code: 53ms)
+[WebServer] (node:28392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  POST /api/auth/sign-up/email 200 in 163ms (next.js: 12ms, application-code: 150ms)
+[WebServer]  GET / 200 in 59ms (next.js: 10ms, application-code: 49ms)
+[WebServer]  GET / 200 in 60ms (next.js: 14ms, application-code: 46ms)
+[WebServer]  GET /dashboard 200 in 198ms (next.js: 8ms, application-code: 190ms)
+[WebServer]  GET /dashboard 200 in 182ms (next.js: 11ms, application-code: 171ms)
+[WebServer]  POST /dashboard 200 in 236ms (next.js: 11ms, application-code: 225ms)
+[WebServer]   └─ ƒ createAssetAction("BCA", "BANK", 1000000) in 64ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 189ms (next.js: 10ms, application-code: 179ms)
+[WebServer]   └─ ƒ createAssetAction("GoPay", "E_WALLET", 0) in 10ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 145ms (next.js: 18ms, application-code: 128ms)
+[WebServer]   └─ ƒ sendChatMessageAction("makan siang 50rb") in 11ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 160ms (next.js: 9ms, application-code: 151ms)
+[WebServer]   └─ ƒ sendChatMessageAction("beli kopi 25rb pake BCA") in 45ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 309ms (next.js: 24ms, application-code: 286ms)
+[WebServer]   └─ ƒ sendChatMessageAction("transfer 100rb dari BCA ke GoPay") in 37ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 452ms (next.js: 11ms, application-code: 441ms)
+[WebServer]   └─ ƒ sendChatMessageAction("gaji 50rb masuk ke BCA") in 29ms src/app/dashboard/actions.ts
+  x  7 [chromium] › e2e\dashboard-flow.spec.ts:4:5 › alur utama: buat akun, catat transaksi via chat, dashboard ter-update (19.8s)
+(node:28540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /register 200 in 57ms (next.js: 8ms, application-code: 49ms)
+[WebServer]  POST /api/auth/sign-up/email 200 in 283ms (next.js: 23ms, application-code: 260ms)
+[WebServer] (node:22316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET / 200 in 56ms (next.js: 9ms, application-code: 46ms)
+[WebServer]  GET / 200 in 64ms (next.js: 11ms, application-code: 53ms)
+[WebServer]  GET /dashboard 200 in 448ms (next.js: 16ms, application-code: 432ms)
+[WebServer]  GET /dashboard 200 in 412ms (next.js: 42ms, application-code: 369ms)
+[WebServer]  POST /dashboard 200 in 200ms (next.js: 26ms, application-code: 174ms)
+[WebServer]   └─ ƒ createAssetAction("BCA", "BANK", 1000000) in 42ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 149ms (next.js: 15ms, application-code: 134ms)
+[WebServer]   └─ ƒ createAssetAction("GoPay", "E_WALLET", 0) in 12ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 198ms (next.js: 23ms, application-code: 175ms)
+[WebServer]   └─ ƒ sendChatMessageAction("makan siang 50rb") in 13ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 244ms (next.js: 27ms, application-code: 217ms)
+[WebServer]   └─ ƒ sendChatMessageAction("beli kopi 25rb pake BCA") in 43ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 327ms (next.js: 13ms, application-code: 314ms)
+[WebServer]   └─ ƒ sendChatMessageAction("transfer 100rb dari BCA ke GoPay") in 30ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 282ms (next.js: 33ms, application-code: 249ms)
+[WebServer]   └─ ƒ sendChatMessageAction("gaji 50rb masuk ke BCA") in 43ms src/app/dashboard/actions.ts
+  x  8 [chromium] › e2e\dashboard-flow.spec.ts:4:5 › alur utama: buat akun, catat transaksi via chat, dashboard ter-update (retry #1) (20.8s)
+(node:27348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /register 200 in 36ms (next.js: 8ms, application-code: 28ms)
+[WebServer]  POST /api/auth/sign-up/email 200 in 180ms (next.js: 17ms, application-code: 163ms)
+[WebServer]  GET / 200 in 60ms (next.js: 8ms, application-code: 52ms)
+[WebServer]  GET / 200 in 57ms (next.js: 13ms, application-code: 44ms)
+[WebServer] (node:11464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /dashboard 200 in 232ms (next.js: 12ms, application-code: 220ms)
+[WebServer]  GET /dashboard 200 in 341ms (next.js: 11ms, application-code: 330ms)
+[WebServer]  POST /dashboard 200 in 143ms (next.js: 15ms, application-code: 128ms)
+[WebServer]   └─ ƒ createAssetAction("BCA", "BANK", 1000000) in 35ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 240ms (next.js: 11ms, application-code: 229ms)
+[WebServer]   └─ ƒ sendChatMessageAction("beli makan 100rb pake BCA") in 29ms src/app/dashboard/actions.ts
+[WebServer] ○ Compiling /dashboard/history ...
+  x  9 [chromium] › e2e\history.spec.ts:4:5 › riwayat: edit nominal memakai VOID + replacement, lalu void transaksi pengganti (33.2s)
+(node:11592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET /register 200 in 53ms (next.js: 18ms, application-code: 35ms)
+[WebServer]  POST /api/auth/sign-up/email 200 in 203ms (next.js: 17ms, application-code: 187ms)
+[WebServer] (node:26360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer]  GET / 200 in 287ms (next.js: 187ms, application-code: 101ms)
+[WebServer]  GET / 200 in 90ms (next.js: 41ms, application-code: 48ms)
+[WebServer]  GET /dashboard 200 in 167ms (next.js: 13ms, application-code: 154ms)
+[WebServer]  GET /dashboard 200 in 275ms (next.js: 170ms, application-code: 105ms)
+[WebServer]  POST /dashboard 200 in 289ms (next.js: 185ms, application-code: 104ms)
+[WebServer]   └─ ƒ createAssetAction("BCA", "BANK", 1000000) in 23ms src/app/dashboard/actions.ts
+[WebServer]  POST /dashboard 200 in 138ms (next.js: 14ms, application-code: 124ms)
+[WebServer]   └─ ƒ sendChatMessageAction("beli makan 100rb pake BCA") in 25ms src/app/dashboard/actions.ts
+[WebServer]  GET /dashboard/history 200 in 14.4s (next.js: 14.4s, application-code: 82ms)
+[WebServer]  POST /dashboard/history 200 in 122ms (next.js: 8ms, application-code: 114ms)
+[WebServer]   └─ ƒ editTransactionAction({"amount":"50000","category":null,"description":"beli makan","...":"4 items not stringified"}) in 51ms src/app/dashboard/actions.ts
+[WebServer]  GET /dashboard/history 200 in 73ms (next.js: 13ms, application-code: 61ms)
+[WebServer]  POST /dashboard/history 200 in 118ms (next.js: 9ms, application-code: 109ms)
+[WebServer]   └─ ƒ voidTransactionAction("56b8878c-54b1-4807-b00a-192bdfbb8b01", "salah input nominal") in 35ms src/app/dashboard/actions.ts
+[WebServer]  GET /dashboard/history 200 in 68ms (next.js: 12ms, application-code: 56ms)
+[WebServer]  GET /dashboard/history?status=VOIDED 200 in 84ms (next.js: 15ms, application-code: 69ms)
+[WebServer]  GET /dashboard 200 in 92ms (next.js: 11ms, application-code: 82ms)
+  ok 10 [chromium] › e2e\history.spec.ts:4:5 › riwayat: edit nominal memakai VOID + replacement, lalu void transaksi pengganti (retry #1) (18.8s)
+
+
+  1) [chromium] › e2e\dashboard-flow.spec.ts:4:5 › alur utama: buat akun, catat transaksi via chat, dashboard ter-update 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('transfer 100rb dari BCA ke GoPay', { exact: true })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('transfer 100rb dari BCA ke GoPay', { exact: true }) with timeout 15000ms
+      - waiting for getByText('transfer 100rb dari BCA ke GoPay', { exact: true })
+
+
+      41 |   await expect(
+      42 |     page.getByText("transfer 100rb dari BCA ke GoPay", { exact: true }),
+    > 43 |   ).toBeVisible();
+         |     ^
+      44 |   await expect(page.getByText("gaji 50rb masuk ke BCA", { exact: true })).toBeVisible();
+      45 | });
+      46 |
+        at E:\Dio Web Program\Fintry\fintry\e2e\dashboard-flow.spec.ts:43:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('transfer 100rb dari BCA ke GoPay', { exact: true })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('transfer 100rb dari BCA ke GoPay', { exact: true }) with timeout 15000ms
+      - waiting for getByText('transfer 100rb dari BCA ke GoPay', { exact: true })
+
+
+      41 |   await expect(
+      42 |     page.getByText("transfer 100rb dari BCA ke GoPay", { exact: true }),
+    > 43 |   ).toBeVisible();
+         |     ^
+      44 |   await expect(page.getByText("gaji 50rb masuk ke BCA", { exact: true })).toBeVisible();
+      45 | });
+      46 |
+        at E:\Dio Web Program\Fintry\fintry\e2e\dashboard-flow.spec.ts:43:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium-retry1\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium-retry1\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium-retry1\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\dashboard-flow-alur-utama--0c02c-a-chat-dashboard-ter-update-chromium-retry1\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › e2e\auth.spec.ts:36:7 › Autentikasi › password salah menampilkan pesan error dan tetap di halaman login 
+
+    TimeoutError: page.waitForURL: Timeout 45000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation until "load"
+    ============================================================
+
+       at helpers.ts:17
+
+      15 |   await page.getByLabel("Konfirmasi Password").fill(PASSWORD);
+      16 |   await page.getByRole("button", { name: "Daftar" }).click();
+    > 17 |   await page.waitForURL(/\/dashboard/, { timeout: 45_000 });
+         |              ^
+      18 |   await expect(page.getByRole("heading", { name: "Dashboard Keuangan" })).toBeVisible({
+      19 |     timeout: 30_000,
+      20 |   });
+        at registerUser (E:\Dio Web Program\Fintry\fintry\e2e\helpers.ts:17:14)
+        at E:\Dio Web Program\Fintry\fintry\e2e\auth.spec.ts:38:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\auth-Autentikasi-password--580e1--dan-tetap-di-halaman-login-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\auth-Autentikasi-password--580e1--dan-tetap-di-halaman-login-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\auth-Autentikasi-password--580e1--dan-tetap-di-halaman-login-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\auth-Autentikasi-password--580e1--dan-tetap-di-halaman-login-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e\history.spec.ts:4:5 › riwayat: edit nominal memakai VOID + replacement, lalu void transaksi pengganti 
+
+    TimeoutError: page.waitForURL: Timeout 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation until "load"
+    ============================================================
+
+      14 |
+      15 |   await page.getByRole("link", { name: "Riwayat", exact: true }).click();
+    > 16 |   await page.waitForURL(/\/dashboard\/history/, { timeout: 30_000 });
+         |              ^
+      17 |
+      18 |   await expect(page.getByText("beli makan", { exact: true })).toBeVisible();
+      19 |   await expect(page.getByText("Rp100.000").first()).toBeVisible();
+        at E:\Dio Web Program\Fintry\fintry\e2e\history.spec.ts:16:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\history-riwayat-edit-nomin-3dda8-lu-void-transaksi-pengganti-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\history-riwayat-edit-nomin-3dda8-lu-void-transaksi-pengganti-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\history-riwayat-edit-nomin-3dda8-lu-void-transaksi-pengganti-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\history-riwayat-edit-nomin-3dda8-lu-void-transaksi-pengganti-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e\dashboard-flow.spec.ts:4:5 › alur utama: buat akun, catat transaksi via chat, dashboard ter-update 
+  2 flaky
+    [chromium] › e2e\auth.spec.ts:36:7 › Autentikasi › password salah menampilkan pesan error dan tetap di halaman login 
+    [chromium] › e2e\history.spec.ts:4:5 › riwayat: edit nominal memakai VOID + replacement, lalu void transaksi pengganti 
+  4 passed (3.5m)
