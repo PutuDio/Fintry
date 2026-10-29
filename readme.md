@@ -1,55 +1,102 @@
-## NAMA BRAND ##
+# Fintry v1.2 — AI Personal Finance Platform
 
-Fintry (Portmanteau dari "Finance" dan "Data Entry")
-Nama ini terdengar modern, berteknologi tinggi, dan berorientasi pada tindakan. "Fintry" memberikan kesan sebagai sebuah startup fintech atau SaaS (Software as a Service) tingkat profesional yang fokus pada kecepatan input dan akurasi data.
+> **"Satu Chat. Kendali Penuh."**  
+> Kelola keuangan pribadi semudah mengirim pesan. Didukung oleh AI NLP berbatas tegas dan Financial Engine deterministik tanpa halusinasi matematis.
 
-## Deskripsi Brand (Elevator Pitch) ##
-Fintry adalah pusat kendali kekayaan pintar yang menyatukan seluruh aset keuangan Anda dalam satu dashboard. Menggantikan kerumitan pengisian form tradisional dengan antarmuka berbasis teks, Fintry memungkinkan Anda mencatat pengeluaran, pemasukan, dan perpindahan aset antar-dompet hanya dengan mengetik pesan singkat. Dari rekening bank, e-wallet, hingga portofolio investasi, sistem Fintry membaca, mengekstrak, dan menyajikan metrik keuangan Anda secara presisi dan real-time.
+[![Version](https://img.shields.io/badge/version-1.2.0-00E5A2.svg)](#)
+[![Theme](https://img.shields.io/badge/theme-Ledger_Navy-123A63.svg)](#)
+[![Tests](https://img.shields.io/badge/tests-79%20passed-00E5A2.svg)](#)
+[![Next.js](https://img.shields.io/badge/Next.js-16.3-F2F5F8.svg)](#)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-38BDF8.svg)](#)
 
-## Slogan / Tagline ##
-Tagline Utama (Situs Web & Pitch Deck): "Satu Chat. Kendali Penuh."
+---
 
-Tagline Fungsional (Instruksi Pengguna): "Ketik transaksimu, biarkan Fintry yang mengurus datanya."
+## 🌟 Fitur Utama v1.2
 
-Tagline Pemasaran (Media Sosial): "Cara tercepat memantau aset. Tanpa form, tanpa ribet."
+- **Tema Ledger Navy**: Antarmuka modern berstandar command-center finansial (`#0B1F3B`, `#123A63`, `#2F5D8C`, `#C9D6E5`, `#F2F5F8`).
+- **Sidebar Sticky Viewport**: Sidebar terpasang rapi (`md:sticky md:top-0 md:h-screen`), menjaga profil dan menu akun di bagian bawah tetap terlihat tanpa perlu scroll.
+- **Layout Dashboard 2 Kolom**: Menampilkan widget **Akun & Saldo** (kiri) dan **Transaksi Terakhir** (kanan) berdampingan langsung di bawah asisten chat.
+- **Natural Language Transaction Entry**: Input pemasukan, pengeluaran, dan transfer rekening via percakapan natural (misal: *"beli kopi 35rb bca"*).
+- **Hapus Akun & Cascading Reset**: Kemampuan menghapus akun aset beserta mutasinya secara aman dan atomik, membebaskan nama akun untuk digunakan kembali tanpa tabrakan unique constraint.
+- **Rekonsiliasi Saldo & Mutasi**: Fitur penyesuaian saldo riil dengan riwayat audit log append-only.
+- **Landing Page Modern**: Halaman depan dilengkapi mockup laptop realistis yang menampilkan dashboard Fintry v1.2.
 
-## Identitas Visual & UI/UX ##
-Pendekatan visual Fintry mengadopsi gaya Tech-Brutalist dan Command Center. Desainnya difokuskan pada penyajian data yang padat, rapi, dan transparan layaknya sistem pemantauan data terpusat.
+---
 
-Palet Warna:
+## 🎨 Palet Warna Ledger Navy
 
-Background: Hitam Solid (#000000) atau Very Dark Slate (#0F172A) untuk memberikan kontras tinggi.
+| Token | Hex | Penggunaan |
+| :--- | :--- | :--- |
+| **Deep Navy** | `#0B1F3B` | Latar belakang canvas, input field, background utama |
+| **Slate Navy** | `#123A63` | Permukaan kartu, panel, table header |
+| **Accent Navy** | `#2F5D8C` | Border kartu, garis pembatas (divider) |
+| **Muted Slate** | `#C9D6E5` | Label sekunder, deskripsi bantuan, ikon pasif |
+| **Ice Mist** | `#F2F5F8` | Teks utama, judul, nominal saldo |
+| **Emerald Accent** | `#00E5A2` | Pemasukan, tombol aksi primer, status aktif |
+| **Crimson Coral** | `#FF4B72` | Pengeluaran, tombol hapus/batal |
+| **Sky Blue** | `#38BDF8` | Transfer antar rekening, badge bank, arus kas |
 
-Aksen Fungsional: Neon Mint/Cyan (#00FFCC) untuk elemen aktif/tombol, dan Putih Bersih (#FFFFFF) untuk teks utama.
+---
 
-Kode Aset: Beri warna identifikasi konstan untuk grafik dashboard (misal: Biru untuk Rekening Bank, Ungu untuk E-Wallet, Hijau untuk Investasi).
+## 🏛️ Arsitektur Finansial & Keamanan
 
-Tipografi: Gunakan Inter atau Geist untuk angka dan metrik utama di dashboard agar sangat terbaca, serta font monospace (seperti JetBrains Mono atau Fira Code) pada area kolom chat untuk memperkuat kesan teknikal dan presisi.
+Fintry menerapkan batasan ketat (**Financial Safety Boundary**):
+```
+User Input → Chat Parser → Structured Intent → Application Validator → Deterministic Financial Engine → Database
+```
 
-Struktur UI: Layar terbagi (split-view). Kiri adalah area terminal/chat vertikal sebagai pintu masuk data (data entry). Kanan adalah Master Dashboard komprehensif yang menampilkan total kekayaan dan grafik yang merespons perubahan secara langsung.
+- **Tanpa Halusinasi Matematis**: AI LLM hanya mengekstrak entitas (nominal, kategori, tanggal, akun asal/tujuan). Seluruh kalkulasi saldo dan penambahan/pengurangan dilakukan oleh domain logic murni.
+- **Presisi Uang Integer**: Seluruh nilai moneter disimpan dalam satuan terkecil Rupiah menggunakan tipe data `BIGINT` untuk mencegah kesalahan pembulatan desimal.
+- **Transaksi Atomik**: Mutasi mutlak berjalan dalam transaksi database PostgreSQL dengan row locking (`FOR UPDATE`) untuk mencegah race condition / double-spending.
+- **Isolasi Pengguna**: Setiap entitas dan riwayat terikat ketat dengan composite foreign key terhadap `userId`.
 
-## Persona Interaksi Chat (Tone of Voice) ##
-Sistem bot atau pemroses teks Fintry bertindak layaknya Asisten Eksekutif yang Cepat, Akurat, dan Berbasis Data. Tidak ada basa-basi, tidak ada sapaan berlebihan. Komunikasi 100% fungsional dan memberikan konfirmasi matematis yang menenangkan pengguna.
+---
 
-Cepat & Ringkas: Menjawab langsung ke inti transaksi tanpa narasi panjang.
+## 🚀 Memulai Proyek
 
-Presisi: Selalu menyebutkan sisa saldo terbaru atau letak aset setelah transaksi terjadi.
+### Prasyarat
+- Node.js 20+
+- pnpm 9+
+- PostgreSQL 15+
 
-Contoh Interaksi:
+### Instalasi & Setup
 
-Pengguna: "Gaji 5jt masuk ke bca"
+```bash
+# 1. Masuk ke direktori aplikasi
+cd fintry
 
-Fintry: "✅ Pemasukan: Gaji (Rp5.000.000). Saldo BCA saat ini: Rp12.500.000."
+# 2. Pasang dependensi
+pnpm install
 
-Pengguna: "Beli reksadana 1jt pake dana bca"
+# 3. Konfigurasi environment (.env.local)
+cp .env.example .env.local
 
-Fintry: "🔄 Transfer Aset: Rp1.000.000 dari BCA ke Reksadana. Total nilai Investasi: Rp4.000.000."
+# 4. Jalankan migrasi basis data
+pnpm db:migrate
 
-## Nilai Jual Utama (Pesan Kampanye Marketing) ##
-Pesan pemasaran Fintry harus menyerang langsung rasa frustrasi pengguna terhadap aplikasi pencatat keuangan yang lambat dan kaku. Fokuskan pada tiga pilar ini:
+# 5. Jalankan unit & integration tests
+pnpm vitest run
 
-Bebas Gesekan (Zero-Friction Entry): "Berhenti membuang waktu memilih tanggal, kategori, dan dompet dari menu dropdown yang panjang. Jika Anda bisa mengetik 'beli kopi 30rb ewallet', Anda sudah bisa mengatur keuangan layaknya profesional."
+# 6. Jalankan development server
+pnpm dev
+```
 
-Kategori Tanpa Batas (Infinite Customization): "Sistem kami beradaptasi dengan gaya hidup Anda, bukan sebaliknya. Ketik kategori apa pun—dari 'jajan' hingga 'angpau'—dan Fintry akan mengelompokkannya secara otomatis."
+Buka `http://localhost:3000` di peramban Anda.
 
-Satu Pandangan Helikopter (Helicopter View): "Uang Anda mungkin tersebar di 3 bank, 2 e-wallet, dan sekuritas saham. Fintry menyatukannya menjadi satu angka total kekayaan (net worth) absolut di layar Anda."
+---
+
+## 🧪 Status Pengujian
+
+- **Unit & Integration Tests**: 79 test cases lolos (Vitest + scratch integration DB).
+- **TypeScript**: 0 error (strict type checking aktif).
+- **Production Build**: Lolos bersih (`pnpm build`).
+
+---
+
+## 📄 Dokumentasi Terkait
+
+- `docs/update-v1.2.md`: Catatan rilis v1.2
+- `docs/domain_rules.md`: Aturan domain finansial deterministik
+- `docs/PRD.md`: Spesifikasi produk dan functional requirements
+- `docs/tech_stack.md`: Dokumen teknis dan konvensi arsitektur
+- `docs/progress.md`: Catatan kemajuan status pengembangan

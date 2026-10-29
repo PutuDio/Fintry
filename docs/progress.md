@@ -2,13 +2,14 @@
 
 ## Current Status
 
-Milestone: **MVP selesai + pre-deployment polish + profile menu** (stages 1-24). Pengguna dapat registrasi, login (dengan forgot password flow), kelola aset (termasuk CASH/tunai), catat transaksi bahasa alami lewat chat (dengan panduan format), lihat riwayat lengkap dengan filter dan pagination, edit/void transaksi dengan audit trail, serta reverse koreksi finansial via VOID + replacement. Input nominal auto-format dengan separator ribuan. Profile menu dengan change password/email. Security audit selesai (posture solid untuk development). E2E Playwright coverage (7 spec) + polish UI (metadata, error boundary, 404, loading, accessibility).
+Milestone: **v1.2 Selesai: Ledger Navy UI Redesign, Sticky Sidebar, 2-Column Dashboard, Cascade Account Reset & Landing Page Laptop Mockup**.
+Antarmuka Fintry kini sepenuhnya mengadopsi tema **Ledger Navy** (`#0B1F3B`, `#123A63`, `#2F5D8C`, `#C9D6E5`, `#F2F5F8`). Sidebar berposisi sticky viewport-height tanpa scroll (`md:sticky md:top-0 md:h-screen`), menu Analytics dihilangkan. Dashboard ditata ulang berdampingan 2 kolom (Akun & Saldo + Transaksi Terakhir). Fitur Hapus Akun (cascade delete & unique index reset) aktif dan terverifikasi. Landing page diperbarui ke v1.2 dengan mockup laptop yang memvisualisasikan dashboard secara realistis.
 
-Tests: **70 unit/integration** (domain 19 + repositories 13 + commands 13 + services 8 + parser 10 + chat 7) + **7 E2E** (auth 5 + dashboard-flow 1 + history 1).
+Tests: **79 unit/integration** (domain 19 + repositories 13 + commands 13 + services 8 + parser 10 + chat 7 + auth 3 + accounts-mgmt 3 + analytics 3) + **7 E2E**.
 
-Current focus: siap deploy ke production.
+Current focus: Fintry v1.2 Rilis Produksi & Deployment.
 
-Last updated: 2026-10-24
+Last updated: 2026-10-29
 
 ## Completed
 
@@ -683,7 +684,42 @@ repositories + scratch test DB + mutation flow (stage 9).
 Each item is a checkpoint.
 
 ## Change Log
+### 2026-10-29
 
+-   Selesai Tahap 1 implementasi pembaruan v1.2:
+    - Skema `users` diperbarui dengan kolom `username` dan `display_username` (`drizzle/0006_yielding_lady_bullseye.sql`).
+    - Konfigurasi Better Auth provider `google` dan plugin `username` pada `auth.ts` serta `usernameClient` pada `client.ts`.
+    - Halaman `/register` diperbarui: 4 input formulir + tombol Google OAuth.
+    - Halaman `/login` diperbarui: input dual identifier (username atau email) + tombol Google OAuth.
+    - Halaman `/dashboard/profile` dibuat dengan 3 tab (Profil Pengguna, Keamanan/Password, Sesi Perangkat Aktif).
+    - Rangkaian pengujian Vitest (73 tes) dan build Next.js lulus tanpa kesalahan.
+    - Selesai Tahap 2 & 3:
+      - Implementasi tema Dark Command Center dan default dark mode di `globals.css` serta `layout.tsx`.
+      - Komponen `Sidebar` responsif di `src/components/dashboard/sidebar.tsx` dengan navigasi terstruktur (`Overview`, `Finance`, `Account`).
+      - `DashboardLayout` di `src/app/dashboard/layout.tsx` mengisolasi sidebar untuk seluruh route dashboard.
+      - Halaman `/dashboard/accounts` (`AccountsView`) dengan operasi Tambah Akun, Edit Nama Akun, Koreksi Saldo riil, Deaktivasi akun nol (D4), dan tabel riwayat append-only `asset_adjustments`.
+      - `AssetList` di dashboard utama dibersihkan menjadi monitor read-only.
+      - `ChatInput` dan `TransactionLedger` diselaraskan ke tema Command Center dengan font-mono untuk angka dan input.
+      - Penambahan pengujian unit `accounts-management.test.ts` (75 tes lulus total). Build Next.js 12 route lolos bersih.
+
+
+    - Selesai Tahap 4:
+      - Implementasi query service `analytics.ts` (`getFinancialMetrics`, `getCashFlowHistory`, `getSpendingBreakdown`).
+      - Komponen `MetricsRow`: 4 kartu metrik (Kekayaan Bersih, Pemasukan Bulan Ini, Total Pengeluaran, Rasio Tabungan).
+      - Komponen `CashFlowChart`: SVG Multi-bar chart 6 bulan komparatif (Pemasukan `#00E5A2` vs Pengeluaran `#FF4B72`) dengan hover tooltip interaktif nominal IDR.
+      - Komponen `SpendingDonut`: SVG Donut chart kategori pengeluaran dengan nominal total di tengah dan legenda persentase.
+      - Komponen `RecentTransactionsWidget`: 5 transaksi teranyar dengan ikon tipe transaksi dan tautan langsung ke history.
+      - Komponen `SavingsGoalsWidget`: Widget progress Dana Darurat (3x beban bulanan) dan Target Investasi.
+      - Integrasi penuh dashboard di `src/app/dashboard/page.tsx` sesuai tata letak `docs/update.png`.
+      - Rangkaian pengujian unit `analytics.test.ts` (78 tes lulus total) dan build produksi Next.js 12 rute sukses.
+### 2026-10-29 (Fintry v1.2 Release)
+
+-   **Tema Ledger Navy**: Migrasi warna global pada `globals.css`, layout root, dashboard layout, dialog modal, komponen metrik, chart, dan list akun ke palet Navy (`#0B1F3B`, `#123A63`, `#2F5D8C`, `#C9D6E5`, `#F2F5F8`, `#00E5A2`, `#FF4B72`, `#38BDF8`).
+-   **Navigasi Sidebar**: Menghapus item navigasi Analytics; menerapkan `md:sticky md:top-0 md:h-screen` agar menu akun dan profil di bagian bawah tidak terpotong atau memerlukan window scroll.
+-   **Layout Dashboard 2 Kolom**: Menghapus widget Target Tabungan; memposisikan Akun & Saldo (6 kolom) berdampingan dengan Transaksi Terakhir (6 kolom) tepat di bawah input chat.
+-   **Fitur Hapus Akun Pengguna**: Menambahkan `deleteUserAccountAction` di server actions (`src/app/dashboard/actions.ts`). Melakukan cascading delete dari semua data pengguna secara atomik: transaksi → penyesuaian aset → aset → audit log → kategori → idempotencyKeys → pendingIntents → sesi → akun → pengguna (berdasarkan `eq(*.userId, userId)`). Diperbarui `profile-view.tsx` dengan kartu "Zona Bahaya: Hapus Akun Pengguna" dengan konfirmasi modal HAPUS.
+-   **Landing Page v1.2**: Merancang ulang `src/app/page.tsx` dengan badge Fintry v1.2, kartu nilai jual arsitektur deterministik, dan mockup laptop realistis menampilkan dashboard Ledger Navy.
+-   **Verifikasi**: Menambahkan integration test cascade deletion di `accounts-management.test.ts`. Seluruh 79 test unit/integrasi lolos 100%. Next.js production build (`pnpm build`) berhasil tanpa error.
 ### 2026-10-21
 
 -   Stage 5b passed: auth migration applied and verified.

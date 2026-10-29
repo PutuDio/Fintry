@@ -107,9 +107,9 @@ the scope documents are updated:
 -   automatic market execution
 -   unrelated social features
 -   unrelated collaboration features
--   account deletion / purge procedure (ditunda dari MVP)
 -   asset reactivation
 -   category management UI, rename, merge, delete (P1)
+-   deletion akun finansial (hanya deletion akun pengguna email yang diterapkan)
 
 ## 6. Product Boundary
 
