@@ -1,8 +1,10 @@
-import { and, asc, eq, inArray } from "drizzle-orm";
+import { and, asc, eq, inArray, or } from "drizzle-orm";
 import { assets } from "../db/schema/assets";
+import { transactions } from "../db/schema/transactions";
+import { assetAdjustments } from "../db/schema/asset-adjustments";
+import { insertAudit } from "./audit";
 import type { AssetType } from "@/domain/types";
 import type { Executor } from "./types";
-
 // Repository `assets`. Semua query di-scope userId (lapisan isolasi
 // pertama; FK komposit adalah lapisan kedua — ADR-002 §2.8).
 // Tidak ada delete: asset tidak pernah dihapus fisik (D4).
@@ -96,4 +98,74 @@ export async function deactivateAsset(
     )
     .returning();
   return rows[0] ?? null;
+}
+
+export async function updateAssetName(
+  tx: Executor,
+  userId: string,
+  assetId: string,
+  name: string,
+): Promise<AssetRow | null> {
+  const rows = await tx
+    .update(assets)
+    .set({ name: name.trim(), updatedAt: new Date() })
+    .where(and(eq(assets.id, assetId), eq(assets.userId, userId)))
+    .returning();
+  return rows[0] ?? null;
+}
+
+/**
+ * Hapus akun beserta mutasi dan penyesuaian terkait secara kaskade
+ * dalam satu transaksi atomik. Membebaskan constraint unique nama akun
+ * sehingga pengguna dapat mereset atau mendaftarkan ulang nama akun tersebut.
+ */
+export async function deleteAssetWithCascade(
+  tx: Executor,
+  userId: string,
+  assetId: string,
+): Promise<boolean> {
+  const asset = await getAssetById(tx, userId, assetId);
+  if (!asset) return false;
+
+  // 1. Hapus transaksi terkait akun ini
+  await tx.delete(transactions).where(
+    and(
+      eq(transactions.userId, userId),
+      or(
+        eq(transactions.sourceAssetId, assetId),
+        eq(transactions.destinationAssetId, assetId),
+      ),
+    ),
+  );
+
+  // 2. Hapus riwayat penyesuaian saldo akun ini
+  await tx.delete(assetAdjustments).where(
+    and(
+      eq(assetAdjustments.userId, userId),
+      eq(assetAdjustments.assetId, assetId),
+    ),
+  );
+
+  // 3. Hapus baris asset
+  const deleted = await tx
+    .delete(assets)
+    .where(and(eq(assets.id, assetId), eq(assets.userId, userId)))
+    .returning();
+
+  if (deleted.length === 0) return false;
+
+  // 4. Catat audit log
+  await insertAudit(tx, {
+    userId,
+    entityType: "ASSET",
+    entityId: assetId,
+    action: "ASSET_DEACTIVATED",
+    beforeState: {
+      name: asset.name,
+      type: asset.type,
+      currentValue: asset.currentValue.toString(),
+      deletedCascade: true,
+    },
+  });
+  return true;
 }

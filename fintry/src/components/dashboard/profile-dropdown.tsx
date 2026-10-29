@@ -75,6 +75,28 @@ export function ProfileDropdown({ userEmail, onChangePassword, onChangeEmail }: 
             <button
               onClick={() => {
                 setIsOpen(false);
+                router.push("/dashboard/profile");
+              }}
+              className="flex w-full items-center px-4 py-2 text-left text-sm text-zinc-700 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-700"
+            >
+              <svg
+                className="mr-3 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              Pengaturan Profil
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
                 onChangePassword();
               }}
               className="flex w-full items-center px-4 py-2 text-left text-sm text-zinc-700 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-700"

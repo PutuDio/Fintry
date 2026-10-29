@@ -30,6 +30,19 @@ export async function listAdjustmentsByAsset(
     .orderBy(desc(assetAdjustments.createdAt));
 }
 
+export async function listAdjustmentsByUser(
+  db: Executor,
+  userId: string,
+  limit = 20,
+): Promise<AdjustmentRow[]> {
+  return db
+    .select()
+    .from(assetAdjustments)
+    .where(eq(assetAdjustments.userId, userId))
+    .orderBy(desc(assetAdjustments.createdAt))
+    .limit(limit);
+}
+
 /** Untuk reconciliation test: jumlah delta seluruh adjustment asset. */
 export async function sumAdjustmentDeltas(
   db: Executor,

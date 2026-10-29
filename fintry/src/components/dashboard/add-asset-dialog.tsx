@@ -36,7 +36,7 @@ export function AddAssetDialog() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+        className="rounded-lg bg-[#00E5A2] px-4 py-2 text-sm font-semibold text-[#0B1F3B] transition hover:bg-[#00E5A2]/90"
       >
         Tambah Akun
       </button>
@@ -44,16 +44,16 @@ export function AddAssetDialog() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="add-asset-title"
-        className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
+        className="w-full max-w-md rounded-xl border border-[#2F5D8C] bg-[#123A63] p-6 shadow-2xl text-[#F2F5F8]"
       >
         <h2
           id="add-asset-title"
-          className="mb-4 text-xl font-bold text-zinc-900 dark:text-zinc-50"
+          className="mb-4 text-xl font-bold text-[#F2F5F8]"
         >
           Tambah Akun Baru
         </h2>
@@ -62,7 +62,7 @@ export function AddAssetDialog() {
           {error && (
             <div
               role="alert"
-              className="rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/50 dark:text-red-400"
+              className="rounded-lg border border-[#FF4B72]/30 bg-[#FF4B72]/15 p-3 text-sm text-[#FF4B72]"
             >
               {error}
             </div>
@@ -71,7 +71,7 @@ export function AddAssetDialog() {
           <div>
             <label
               htmlFor="add-asset-name"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
             >
               Nama Akun
             </label>
@@ -81,33 +81,33 @@ export function AddAssetDialog() {
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="BCA, GoPay, Bibit"
-              className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:placeholder-zinc-500 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+              className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none"
             />
           </div>
 
           <div>
             <label
               htmlFor="add-asset-type"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
             >
               Tipe Akun
             </label>
             <select
               id="add-asset-type"
               onChange={(e) => setType(e.target.value as AssetType)}
-              className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+              className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] focus:border-[#00E5A2] focus:outline-none"
             >
-              <option value="BANK">Bank</option>
-              <option value="E_WALLET">E-Wallet</option>
-              <option value="INVESTMENT">Investasi</option>
-              <option value="CASH">Kas/Tunai</option>
+              <option value="BANK" className="bg-[#123A63] text-[#F2F5F8]">Bank</option>
+              <option value="E_WALLET" className="bg-[#123A63] text-[#F2F5F8]">E-Wallet</option>
+              <option value="INVESTMENT" className="bg-[#123A63] text-[#F2F5F8]">Investasi</option>
+              <option value="CASH" className="bg-[#123A63] text-[#F2F5F8]">Kas/Tunai</option>
             </select>
           </div>
 
           <div>
             <label
               htmlFor="add-asset-opening"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
             >
               Saldo Awal (opsional)
             </label>
@@ -116,7 +116,7 @@ export function AddAssetDialog() {
               value={openingBalance}
               onChange={(e) => setOpeningBalance(formatInputAmount(e.target.value))}
               placeholder="0"
-              className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:placeholder-zinc-500 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+              className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 font-mono text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none"
             />
           </div>
 
@@ -125,14 +125,14 @@ export function AddAssetDialog() {
               type="button"
               onClick={() => setOpen(false)}
               disabled={loading}
-              className="flex-1 rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="flex-1 rounded-lg border border-[#2F5D8C] px-4 py-2 text-sm font-medium text-[#C9D6E5] transition hover:bg-[#163252] hover:text-[#F2F5F8] disabled:opacity-50"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="flex-1 rounded-lg bg-[#00E5A2] px-4 py-2 text-sm font-semibold text-[#0B1F3B] transition hover:bg-[#00E5A2]/90 disabled:opacity-50"
             >
               {loading ? "Menyimpan..." : "Simpan"}
             </button>

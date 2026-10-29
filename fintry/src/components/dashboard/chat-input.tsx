@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Terminal, Send } from "lucide-react";
 import { sendChatMessageAction } from "@/app/dashboard/actions";
 
 export function ChatInput() {
@@ -22,42 +23,46 @@ export function ChatInput() {
         setMessage("");
       }
     } catch (err) {
-      setResponse(`Error: ${err instanceof Error ? err.message : "Unknown error"}`);
+      setResponse(`Error: ${err instanceof Error ? err.message : "Terjadi kesalahan"}`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <form onSubmit={handleSubmit} className="flex gap-2">
-        <input
-          aria-label="Pesan transaksi"
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder='Contoh: "beli kopi 25rb pake BCA" atau "gaji 5jt masuk ke BCA"'
-          disabled={loading}
-          className="flex-1 rounded-lg border border-zinc-300 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:placeholder-zinc-500 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
-        />
+        <div className="relative flex-1">
+          <Terminal className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#C9D6E5]" />
+          <input
+            aria-label="Pesan transaksi"
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder='Contoh: "beli kopi 25rb pake BCA" atau "gaji 5jt masuk ke Mandiri"'
+            disabled={loading}
+            className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] py-2.5 pl-10 pr-3.5 font-mono text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none disabled:opacity-50"
+          />
+        </div>
         <button
           type="submit"
           disabled={loading || !message.trim()}
-          className="rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[#00E5A2] px-4 py-2.5 text-sm font-semibold text-[#0B1F3B] transition hover:bg-[#00E5A2]/90 disabled:opacity-50"
         >
-          {loading ? "Memproses..." : "Kirim"}
+          <Send className="h-4 w-4" />
+          <span>{loading ? "Memproses..." : "Kirim"}</span>
         </button>
       </form>
 
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">
-        Tulis transaksi dengan bebas. Yang penting: <strong>jenis</strong> (beli/gaji/transfer), <strong>nominal</strong> (25rb/5jt), dan <strong>akun</strong> (BCA/GoPay).
+      <p className="text-xs text-[#C9D6E5]">
+        Instruksi natural: Sebut <strong>aktivitas</strong> (beli/bayar/gaji/transfer), <strong>nominal</strong> (25rb/5jt), dan <strong>akun</strong> (BCA/GoPay).
       </p>
 
       {response && (
         <div
           role="status"
           aria-live="polite"
-          className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+          className="rounded-lg border border-[#2F5D8C] bg-[#163252] p-3.5 font-mono text-xs text-[#F2F5F8]"
         >
           {response}
         </div>

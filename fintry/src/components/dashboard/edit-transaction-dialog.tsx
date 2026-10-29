@@ -103,15 +103,15 @@ export function EditTransactionDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-tx-title"
-        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
+        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-[#2F5D8C] bg-[#123A63] p-6 shadow-2xl text-[#F2F5F8]"
       >
         <h2
           id="edit-tx-title"
-          className="mb-1 text-xl font-bold text-zinc-900 dark:text-zinc-50"
+          className="mb-1 text-xl font-bold text-[#F2F5F8]"
         >
           Edit Transaksi
         </h2>
-        <p className="mb-4 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mb-4 text-xs text-[#C9D6E5]">
           {item.type === "INCOME" ? "Pemasukan" : item.type === "EXPENSE" ? "Pengeluaran" : "Transfer"}
           {item.sourceAssetName || item.destinationAssetName
             ? ` · ${item.sourceAssetName ?? "?"} → ${item.destinationAssetName ?? "?"}`
@@ -122,7 +122,7 @@ export function EditTransactionDialog({
           {error && (
             <div
               role="alert"
-              className="rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/50 dark:text-red-400"
+              className="rounded-lg border border-[#FF4B72]/30 bg-[#FF4B72]/10 p-3 text-sm text-[#FF4B72]"
             >
               {error}
             </div>
@@ -131,7 +131,7 @@ export function EditTransactionDialog({
           <div>
             <label
               htmlFor="edit-tx-description"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
             >
               Deskripsi
             </label>
@@ -141,7 +141,7 @@ export function EditTransactionDialog({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Opsional"
-              className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:placeholder-zinc-500 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+              className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] placeholder-[#C9D6E5]/40 focus:border-[#00E5A2] focus:outline-none"
             />
           </div>
 
@@ -149,7 +149,7 @@ export function EditTransactionDialog({
             <div>
               <label
                 htmlFor="edit-tx-category"
-                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
               >
                 Kategori
               </label>
@@ -160,7 +160,7 @@ export function EditTransactionDialog({
                 onChange={(e) => setCategory(e.target.value)}
                 list="history-category-options"
                 placeholder="Opsional"
-                className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:placeholder-zinc-500 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+                className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] placeholder-[#C9D6E5]/40 focus:border-[#00E5A2] focus:outline-none"
               />
               <datalist id="history-category-options">
                 {categories.map((c) => (
@@ -174,7 +174,7 @@ export function EditTransactionDialog({
             <div>
               <label
                 htmlFor="edit-tx-date"
-                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
               >
                 Tanggal
               </label>
@@ -184,13 +184,13 @@ export function EditTransactionDialog({
                 value={transactionDate}
                 onChange={(e) => setTransactionDate(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+                className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] focus:border-[#00E5A2] focus:outline-none"
               />
             </div>
             <div>
               <label
                 htmlFor="edit-tx-amount"
-                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
               >
                 Nominal (Rp)
               </label>
@@ -201,7 +201,7 @@ export function EditTransactionDialog({
                 value={amountInput}
                 onChange={(e) => setAmountInput(formatInputAmount(e.target.value))}
                 required
-                className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+                className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 font-mono text-sm text-[#F2F5F8] focus:border-[#00E5A2] focus:outline-none"
               />
             </div>
           </div>
@@ -210,7 +210,7 @@ export function EditTransactionDialog({
             <div>
               <label
                 htmlFor="edit-tx-source"
-                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
               >
                 Akun Sumber
               </label>
@@ -218,7 +218,7 @@ export function EditTransactionDialog({
                 id="edit-tx-source"
                 value={sourceAssetId}
                 onChange={(e) => setSourceAssetId(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+                className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] focus:border-[#00E5A2] focus:outline-none"
               >
                 {assetOptions.map((a) => (
                   <option key={a.id} value={a.id}>
@@ -233,7 +233,7 @@ export function EditTransactionDialog({
             <div>
               <label
                 htmlFor="edit-tx-destination"
-                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
               >
                 Akun Tujuan
               </label>
@@ -241,7 +241,7 @@ export function EditTransactionDialog({
                 id="edit-tx-destination"
                 value={destinationAssetId}
                 onChange={(e) => setDestinationAssetId(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:focus:border-zinc-100 dark:focus:ring-zinc-100"
+                className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] focus:border-[#00E5A2] focus:outline-none"
               >
                 {assetOptions.map((a) => (
                   <option key={a.id} value={a.id}>
@@ -252,7 +252,7 @@ export function EditTransactionDialog({
             </div>
           )}
 
-          <div className="rounded-lg bg-amber-50 p-3 text-xs text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
+          <div className="rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] p-3 text-xs text-[#C9D6E5]">
             {financialChanged
               ? "Perubahan nominal/akun diterapkan sebagai VOID + transaksi pengganti. Transaksi lama tetap tersimpan di riwayat."
               : "Deskripsi, kategori, dan tanggal diedit langsung tanpa mengubah saldo."}
@@ -263,14 +263,14 @@ export function EditTransactionDialog({
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="flex-1 rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="flex-1 rounded-lg border border-[#2F5D8C] px-4 py-2 text-sm font-semibold text-[#C9D6E5] transition hover:bg-[#163252] hover:text-[#F2F5F8] disabled:opacity-50"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="flex-1 rounded-lg bg-[#00E5A2] px-4 py-2 text-sm font-semibold text-[#0B1F3B] transition hover:bg-[#00E5A2]/90 disabled:opacity-50"
             >
               {loading ? "Menyimpan..." : "Simpan"}
             </button>
