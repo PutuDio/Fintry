@@ -1,4 +1,4 @@
-# Fintry v1.2 Release Notes: Ledger Navy & Dashboard Refinement
+# Fintry v2.0.0 Release Notes: Ledger Navy & Dashboard Refinement
 
 Tanggal Rilis: **2026-10-29**  
 Status: **Production Ready (Verified)**  

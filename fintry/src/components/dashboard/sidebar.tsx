@@ -66,17 +66,14 @@ export function Sidebar({ userEmail, userName, userUsername }: SidebarProps) {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="flex h-16 items-center justify-between border-b border-[#2F5D8C] bg-[#0B1F3B] px-4 md:hidden">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <img src="/Icon.svg" alt="Fintry" className="h-8 w-8" />
-          <span className="text-lg font-bold tracking-tight text-[#F2F5F8]">Fintry</span>
-        </Link>
+      <div className="flex h-14 items-center justify-between border-b border-[#2F5D8C] bg-[#0B1F3B] px-4 md:hidden">
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(true)}
           className="rounded-lg p-2 text-[#C9D6E5] hover:bg-[#123A63] hover:text-[#F2F5F8]"
+          aria-label="Buka menu navigasi"
         >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <Menu className="h-6 w-6" />
         </button>
       </div>
 
@@ -95,12 +92,22 @@ export function Sidebar({ userEmail, userName, userUsername }: SidebarProps) {
         }`}
       >
         {/* Brand header */}
-        <div className="flex h-16 shrink-0 items-center gap-2.5 px-6 border-b border-[#2F5D8C]">
-          <img src="/Icon.svg" alt="Fintry" className="h-8 w-8" />
-          <div className="flex flex-col">
-            <span className="text-lg font-bold tracking-tight text-[#F2F5F8]">Fintry</span>
-            <span className="text-[10px] uppercase tracking-wider text-[#00E5A2]">Command Center</span>
+        <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-[#2F5D8C]">
+          <div className="flex items-center gap-2.5">
+            <img src="/Icon.svg" alt="Fintry" className="h-8 w-8" />
+            <div className="flex flex-col">
+              <span className="text-lg font-bold tracking-tight text-[#F2F5F8]">Fintry</span>
+              <span className="text-[10px] uppercase tracking-wider text-[#00E5A2]">Command Center</span>
+            </div>
           </div>
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            className="rounded-lg p-1.5 text-[#C9D6E5] hover:bg-[#123A63] hover:text-[#F2F5F8] md:hidden"
+            aria-label="Tutup menu navigasi"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
         {/* Navigation list */}

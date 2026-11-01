@@ -45,10 +45,11 @@ Use this order:
 2. `domain_rules.md` for financial domain behavior.
 3. `PRD.md` for product requirements.
 4. `tech_stack.md` for technical constraints.
-5. `project_overview.md` for scope boundaries.
-6. `rules.md` for AI working behavior.
+5. `README.md` for scope boundaries, product concept, and brand context.
+6. `rules.md` and `AGENTS.md` for AI working behavior.
 7. `progress.md` for current implementation state.
-8. `README.md` for product concept and brand context.
+8. `update.md` for active update staging.
+9. `fintry-vX.X.X.md` for historical release documentation.
 
 `rules.md` governs how the AI works. It does not override product, domain, or
 architecture decisions.

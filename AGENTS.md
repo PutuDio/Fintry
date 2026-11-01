@@ -21,12 +21,11 @@ The project documentation is located in `docs/`.
   - coding and response rules
   - modification and testing rules
 
-- `docs/project_overview.md`
-  - project scope
+- `README.md`
+  - project overview
+  - project scope and boundaries (in scope / out of scope)
   - mandatory features
-  - out-of-scope features
   - product principles
-
 - `docs/PRD.md`
   - product requirements
   - user flows
@@ -54,9 +53,10 @@ The project documentation is located in `docs/`.
   - pending tasks
   - important project decisions
 
-- `README.md`
-  - high-level project/product context
-
+- `docs/update.md`
+  - staging and planning document for upcoming updates/features before execution
+- `docs/fintry-v1.0.0.md` & `docs/fintry-v2.0.0.md`
+  - historical documentation for major milestone releases
 ### Architecture decision records
 
 Located in `docs/architecture_decisions/`:
@@ -85,7 +85,7 @@ Before any meaningful development task:
 Also read:
 
 - `docs/PRD.md`
-- `docs/project_overview.md`
+- `README.md`
 
 ### Financial feature
 
@@ -129,7 +129,7 @@ Also read:
 
 - `docs/tech_stack.md`
 - `docs/PRD.md`
-- `docs/project_overview.md`
+- `README.md`
 
 Check the architecture decision records in:
 
@@ -142,7 +142,7 @@ if the change affects an existing architectural decision.
 Also read:
 
 - `docs/PRD.md`
-- `docs/project_overview.md`
+- `README.md`
 - `docs/tech_stack.md`
 
 ### AI / parser / chat behavior
@@ -541,10 +541,11 @@ When documents appear to conflict, use this hierarchy:
 2. `docs/domain_rules.md` for financial-domain behavior
 3. `docs/PRD.md` for product requirements
 4. `docs/tech_stack.md` for technical constraints
-5. `docs/project_overview.md` for scope
-6. `docs/rules.md` for agent working behavior
+5. `README.md` for scope, product boundaries, and high-level context
+6. `docs/rules.md` and `AGENTS.md` for agent working behavior
 7. `docs/progress.md` for current implementation state
-8. `README.md` for high-level context
+8. `docs/update.md` for active update staging
+9. `docs/fintry-vX.X.X.md` for major milestone historical release notes
 
 If a conflict cannot be resolved safely, do not guess. Report the conflict and request a decision.
 
@@ -565,3 +566,15 @@ When starting a new development session:
 5. Inspect the current implementation before making changes.
 
 This keeps context usage efficient while ensuring that project constraints are respected.
+
+---
+
+## 20. Versioning & Update Staging Policy
+
+1. Current system version is **v2.0.1** (post mobile responsive bugfix).
+2. Milestone release archives:
+   - Major architectural/visual milestones are permanently documented in `docs/fintry-vX.X.X.md` (e.g. `docs/fintry-v1.0.0.md`, `docs/fintry-v2.0.0.md`).
+3. Update staging workflow:
+   - Any proposed update, feature addition, or system overhaul must first be drafted in `docs/update.md` explaining the problem, scope, technical plan, and acceptance criteria.
+   - No execution begins until the plan in `docs/update.md` is approved.
+   - Once implemented and verified, freeze the release notes into `docs/fintry-vX.X.X.md` (for major releases), increment versions in `fintry/package.json`, `README.md`, and `docs/progress.md`, and reset `docs/update.md` to its blank template.

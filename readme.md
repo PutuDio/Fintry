@@ -1,9 +1,9 @@
-# Fintry v1.2 — AI Personal Finance Platform
+# Fintry v2.0.1 — AI Personal Finance Platform
 
 > **"Satu Chat. Kendali Penuh."**  
 > Kelola keuangan pribadi semudah mengirim pesan. Didukung oleh AI NLP berbatas tegas dan Financial Engine deterministik tanpa halusinasi matematis.
 
-[![Version](https://img.shields.io/badge/version-1.2.0-00E5A2.svg)](#)
+[![Version](https://img.shields.io/badge/version-2.0.1-00E5A2.svg)](#)
 [![Theme](https://img.shields.io/badge/theme-Ledger_Navy-123A63.svg)](#)
 [![Tests](https://img.shields.io/badge/tests-79%20passed-00E5A2.svg)](#)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3-F2F5F8.svg)](#)
@@ -11,15 +11,28 @@
 
 ---
 
-## 🌟 Fitur Utama v1.2
+## 💡 Apa Itu Fintry?
+
+Fintry adalah aplikasi pencatatan keuangan pribadi dan *multi-asset tracking* berbasis *natural-language chat*. Fintry menyatukan akun bank, e-wallet, dan instrumen investasi ke dalam satu command-center dashboard untuk memberikan *helicopter view* terhadap kekayaan bersih (*net worth*).
+
+### Alur Interaksi Inti:
+```
+User Input → Chat AI Parser → Structured Intent → Application Validator → Deterministic Financial Engine → Database → Dashboard + Feedback
+```
+
+---
+
+## 🌟 Fitur Utama (v2.0.1)
 
 - **Tema Ledger Navy**: Antarmuka modern berstandar command-center finansial (`#0B1F3B`, `#123A63`, `#2F5D8C`, `#C9D6E5`, `#F2F5F8`).
+- **Mobile Responsive Layout (v2.0.1)**: Tata letak mobile responsif yang bersih dengan drawer navigasi tombol menu tiga garis tanpa pergeseran horizontal.
 - **Sidebar Sticky Viewport**: Sidebar terpasang rapi (`md:sticky md:top-0 md:h-screen`), menjaga profil dan menu akun di bagian bawah tetap terlihat tanpa perlu scroll.
 - **Layout Dashboard 2 Kolom**: Menampilkan widget **Akun & Saldo** (kiri) dan **Transaksi Terakhir** (kanan) berdampingan langsung di bawah asisten chat.
-- **Natural Language Transaction Entry**: Input pemasukan, pengeluaran, dan transfer rekening via percakapan natural (misal: *"beli kopi 35rb bca"*).
-- **Hapus Akun & Cascading Reset**: Kemampuan menghapus akun aset beserta mutasinya secara aman dan atomik, membebaskan nama akun untuk digunakan kembali tanpa tabrakan unique constraint.
+- **Natural Language Transaction Entry**: Input pemasukan, pengeluaran, dan transfer rekening via percakapan natural (misal: *"beli kopi 35rb bca"*, *"top up 50rb dari mandiri ke dana"*).
+- **Hapus Akun Pengguna & Cascading Reset**: Kemampuan menghapus akun pengguna beserta seluruh riwayat secara atomik melalui Zona Bahaya dengan konfirmasi modal.
+- **Google OAuth Social Login**: Masuk instan dengan akun Google terverifikasi melalui Better Auth.
 - **Rekonsiliasi Saldo & Mutasi**: Fitur penyesuaian saldo riil dengan riwayat audit log append-only.
-- **Landing Page Modern**: Halaman depan dilengkapi mockup laptop realistis yang menampilkan dashboard Fintry v1.2.
+- **Landing Page Modern**: Halaman depan interaktif dilengkapi mockup laptop realistis yang menampilkan dashboard Fintry.
 
 ---
 
@@ -35,6 +48,27 @@
 | **Emerald Accent** | `#00E5A2` | Pemasukan, tombol aksi primer, status aktif |
 | **Crimson Coral** | `#FF4B72` | Pengeluaran, tombol hapus/batal |
 | **Sky Blue** | `#38BDF8` | Transfer antar rekening, badge bank, arus kas |
+
+---
+
+## 🎯 Batasan Ruang Lingkup Produk (Product Boundaries)
+
+### Cakupan MVP:
+- **Autentikasi**: Registrasi username/email, login kredensial & Google OAuth, proteksi sesi, isolasi data per-user, reset password via email.
+- **Manajemen Aset**: Akun Bank, E-Wallet, Cash, Investasi (pencatatan saldo awal, koreksi saldo rekonsiliasi, edit nama akun).
+- **Transaksi**: Pemasukan (Income), Pengeluaran (Expense), Perpindahan dana (Transfer/Top-up), riwayat transaksi, edit transaksi, dan void pembatalan transaksi.
+- **AI Input Parser**: Ekstraksi nominal mata uang Rupiah, deteksi jenis transaksi, resolusi entitas akun, deteksi ambiguitas.
+- **Financial Engine**: Kalkulasi saldo dan net worth strictly deterministik, pencegahan saldo negatif, validasi integritas data.
+
+### Di Luar Ruang Lingkup (Out of Scope):
+Fintry adalah alat pencatatan dan pemantauan status keuangan, **bukan penyedia transaksi uang riil**. Fitur-fitur berikut secara tegas berada di luar lingkup:
+- Sinkronisasi otomatis API perbankan langsung (Open Banking / Screen Scraping)
+- Payment gateway atau eksekusi pembayaran uang riil
+- Eksekusi otomatis transaksi saham / crypto broker
+- Nasihat finansial otomatis (Financial Advisory / Robo-advisory)
+- Credit scoring atau manajemen pinjaman (Loan Management)
+- Sistem akuntansi ERP perusahaan penuh
+- Penghapusan aset finansial individual via UI (hanya diperbolehkan penyesuaian saldo 0 atau hapus akun pengguna penuh)
 
 ---
 
@@ -95,8 +129,11 @@ Buka `http://localhost:3000` di peramban Anda.
 
 ## 📄 Dokumentasi Terkait
 
-- `docs/update-v1.2.md`: Catatan rilis v1.2
-- `docs/domain_rules.md`: Aturan domain finansial deterministik
+- `docs/domain_rules.md`: Aturan domain finansial deterministik (Hukum Uang & Matematika Akuntansi)
 - `docs/PRD.md`: Spesifikasi produk dan functional requirements
 - `docs/tech_stack.md`: Dokumen teknis dan konvensi arsitektur
-- `docs/progress.md`: Catatan kemajuan status pengembangan
+- `docs/fintry-v1.0.0.md`: Dokumentasi sistem rilis awal (v1.0.0)
+- `docs/fintry-v2.0.0.md`: Catatan rilis besar v2.0.0 (Ledger Navy, Cascade Account Reset, Google OAuth)
+- `docs/update.md`: Dokumen staging & template perencanaan pembaruan fitur baru
+- `docs/progress.md`: Status aktif implementasi dan memori kerja teknis
+- `docs/architecture_decisions/`: Rekam keputusan arsitektur (ADR-001, ADR-002, ADR-003)

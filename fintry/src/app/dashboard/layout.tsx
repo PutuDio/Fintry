@@ -13,7 +13,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0B1F3B] text-[#F2F5F8]">
+    <div className="flex min-h-screen flex-col md:flex-row bg-[#0B1F3B] text-[#F2F5F8]">
       <Sidebar
         userEmail={session.user.email}
         userName={session.user.name}
