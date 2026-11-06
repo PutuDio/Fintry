@@ -79,6 +79,53 @@ describe("Stage 12-13: SimpleRulesParser Natural Language", () => {
       expect(payload.destinationAssetId).toBe(mockAssets[1].id);
     }
   });
+  it("parse outgoing transfer to external party as expense: 'tf 100rb ke mama pake BCA'", async () => {
+    const res = await parser.parse(userId, "tf 100rb ke mama pake BCA");
+    expect(res.success).toBe(true);
+    expect(res.intent?.commandType).toBe("CREATE_EXPENSE");
+    if (res.intent?.commandType === "CREATE_EXPENSE") {
+      const payload = res.intent.payload as CreateExpensePayload;
+      expect(payload.amount).toBe(100_000n);
+      expect(payload.sourceAssetId).toBe(mockAssets[0].id);
+      expect(payload.description).toBe("tf ke mama");
+    }
+  });
+
+  it("parse outgoing transfer variation: 'tf ke mama 50rb pake BCA'", async () => {
+    const res = await parser.parse(userId, "tf ke mama 50rb pake BCA");
+    expect(res.success).toBe(true);
+    expect(res.intent?.commandType).toBe("CREATE_EXPENSE");
+    if (res.intent?.commandType === "CREATE_EXPENSE") {
+      const payload = res.intent.payload as CreateExpensePayload;
+      expect(payload.amount).toBe(50_000n);
+      expect(payload.sourceAssetId).toBe(mockAssets[0].id);
+      expect(payload.description).toBe("tf ke mama");
+    }
+  });
+
+  it("parse incoming transfer from external party as income: 'tf masuk 100rb dari mama ke BCA'", async () => {
+    const res = await parser.parse(userId, "tf masuk 100rb dari mama ke BCA");
+    expect(res.success).toBe(true);
+    expect(res.intent?.commandType).toBe("CREATE_INCOME");
+    if (res.intent?.commandType === "CREATE_INCOME") {
+      const payload = res.intent.payload as CreateIncomePayload;
+      expect(payload.amount).toBe(100_000n);
+      expect(payload.destinationAssetId).toBe(mockAssets[0].id);
+      expect(payload.description).toContain("mama");
+    }
+  });
+
+  it("parse incoming transfer with 'transfer dari mama ke BCA' as income", async () => {
+    const res = await parser.parse(userId, "transfer 100rb dari mama ke BCA");
+    expect(res.success).toBe(true);
+    expect(res.intent?.commandType).toBe("CREATE_INCOME");
+    if (res.intent?.commandType === "CREATE_INCOME") {
+      const payload = res.intent.payload as CreateIncomePayload;
+      expect(payload.amount).toBe(100_000n);
+      expect(payload.destinationAssetId).toBe(mockAssets[0].id);
+      expect(payload.description).toBe("tf dari mama");
+    }
+  });
 
   it("mendeteksi ambiguitas jika asset tidak dikenal", async () => {
     const res = await parser.parse(userId, "beli makan 30rb pake OVO");

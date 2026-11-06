@@ -6,7 +6,7 @@ Dokumen ini adalah template sekaligus lembar kerja perencanaan aktif untuk setia
 
 ## Metadata Rencana Pembaruan
 
-- **Target Versi**: `vX.X.X` (misal: `v2.1.0` untuk fitur baru, `v2.0.2` untuk patch/bugfix, `v3.0.0` untuk perombakan besar)
+- **Target Versi**: `vX.X.X` (misal: `v2.2.0` untuk fitur baru, `v2.1.1` untuk patch/bugfix, `v3.0.0` untuk perombakan besar)
 - **Status**: `[DRAFT / APPROVED / IN EXECUTION / COMPLETED]`
 - **Tanggal Dibuat**: YYYY-MM-DD
 - **Target Penyelesaian**: YYYY-MM-DD

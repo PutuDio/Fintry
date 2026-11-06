@@ -37,66 +37,73 @@ export class SimpleRulesParser implements TransactionParser {
     const availableAssets = await this.getAvailableAssets(userId);
     const text = rawMessage.trim();
 
-    // 1. Detect Transfer Pattern: "transfer X dari A ke B" or "tf X ke B dari A" or "topup B X dari A"
-    const transferMatch = text.match(
-      /(?:transfer|tf|pindah|kirim|top\s*up)\s+(.*?)\s+(?:dari|pake|pakai)\s+(.*?)\s+ke\s+(.*)/i,
-    ) || text.match(
-      /(?:transfer|tf|pindah|kirim|top\s*up)\s+(.*?)\s+ke\s+(.*?)\s+(?:dari|pake|pakai)\s+(.*)/i,
-    );
-
-    if (transferMatch) {
-      const rawAmount = transferMatch[1];
-      let sourceName = transferMatch[2];
-      let destName = transferMatch[3];
-
-      // Handle inverted order in second regex pattern
-      if (text.match(/ke\s+.*?\s+dari/i)) {
-        destName = transferMatch[2];
-        sourceName = transferMatch[3];
+    // 0. Detect Incoming Transfer Pattern: "tf masuk ...", "transfer masuk ..."
+    const isIncomingTransfer = /\b(?:tf|transfer)\s+masuk\b/i.test(text);
+    if (isIncomingTransfer) {
+      const amountTokenMatch = text.match(/(\d+(?:[.,]\d+)?\s*(?:jt|juta|rb|ribu|k)?|rp\.?\s*\d+(?:[.,]\d+)*)/i);
+      if (!amountTokenMatch) {
+        return {
+          success: false,
+          intent: null,
+          ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: "Nominal transfer masuk tidak ditemukan." }],
+          missingFields: [{ fieldName: "amount", expectedFormat: "contoh: 100rb atau Rp100.000" }],
+        };
       }
 
-      const amount = parseIndonesianAmount(rawAmount);
-      const sourceMatch = matchAssetByName(sourceName, availableAssets);
-      const destMatch = matchAssetByName(destName, availableAssets);
-
+      const amount = parseIndonesianAmount(amountTokenMatch[1]);
       if (!amount) {
         return {
           success: false,
           intent: null,
-          ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: `Format nominal "${rawAmount}" tidak dikenali.` }],
-          missingFields: [{ fieldName: "amount", expectedFormat: "contoh: 50rb atau 50000" }],
+          ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: `Nominal "${amountTokenMatch[1]}" tidak valid.` }],
+          missingFields: [],
         };
       }
 
-      if (!sourceMatch) {
-        return {
-          success: false,
-          intent: null,
-          ambiguities: [{ type: "AMBIGUOUS_ASSET", message: `Asset asal "${sourceName}" tidak ditemukan.` }],
-          missingFields: [{ fieldName: "sourceAssetId", expectedFormat: "nama asset yang sudah terdaftar" }],
-        };
+      let matchedAssetId: string | null = null;
+      for (const a of availableAssets) {
+        if (text.toLowerCase().includes(a.name.toLowerCase())) {
+          matchedAssetId = a.id;
+          break;
+        }
       }
 
-      if (!destMatch) {
-        return {
-          success: false,
-          intent: null,
-          ambiguities: [{ type: "AMBIGUOUS_ASSET", message: `Asset tujuan "${destName}" tidak ditemukan.` }],
-          missingFields: [{ fieldName: "destinationAssetId", expectedFormat: "nama asset yang sudah terdaftar" }],
-        };
+      if (!matchedAssetId) {
+        if (availableAssets.length === 1) {
+          matchedAssetId = availableAssets[0].id;
+        } else {
+          return {
+            success: false,
+            intent: null,
+            ambiguities: [{ type: "AMBIGUOUS_ASSET", message: "Sebutkan nama akun tujuan transfer masuk (contoh: ke Mandiri)." }],
+            missingFields: [{ fieldName: "destinationAssetId", expectedFormat: "nama asset milik Anda" }],
+          };
+        }
       }
 
-      const parseValidation = CreateTransferSchema.safeParse({
+      const senderMatch =
+        text.match(/(?:dari|oleh)\s+([a-zA-Z0-9_\s]+?)(?:\s+(?:ke|di|\d)|$)/i) ||
+        text.match(/(?:tf|transfer)\s+masuk\s+([a-zA-Z]+)/i);
+
+      let description = text;
+      if (senderMatch) {
+        const candidate = senderMatch[1].trim();
+        if (!availableAssets.some((a) => a.name.toLowerCase() === candidate.toLowerCase())) {
+          description = `tf masuk dari ${candidate}`;
+        }
+      }
+
+      const valid = CreateIncomeSchema.safeParse({
         amount,
-        sourceAssetId: sourceMatch.assetId,
-        destinationAssetId: destMatch.assetId,
+        destinationAssetId: matchedAssetId,
+        description,
       });
 
-      if (!parseValidation.success) {
+      if (!valid.success) {
         return {
           success: false,
           intent: null,
-          ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: parseValidation.error.issues[0].message }],
+          ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: valid.error.issues[0].message }],
           missingFields: [],
         };
       }
@@ -106,11 +113,162 @@ export class SimpleRulesParser implements TransactionParser {
         intent: {
           idempotencyKey: randomUUID(),
           userId,
-          commandType: "CREATE_TRANSFER",
-          payload: parseValidation.data,
+          commandType: "CREATE_INCOME",
+          payload: valid.data,
         },
         ambiguities,
         missingFields: [],
+      };
+    }
+
+    // 1. Detect Transfer Pattern:
+    // a. "tf ke [dest] [amount] pake/dari [source]"
+    // b. "tf [amount] ke [dest] dari/pake [source]"
+    // c. "tf [amount] dari/pake [source] ke [dest]"
+    const matchA = text.match(
+      /(?:transfer|tf|pindah|kirim|top\s*up)\s+ke\s+(.*?)\s+(\d+(?:[.,]\d+)?\s*(?:jt|juta|rb|ribu|k)?|rp\.?\s*\d+(?:[.,]\d+)*)\s+(?:dari|pake|pakai)\s+(.*)/i,
+    );
+    const matchB = text.match(
+      /(?:transfer|tf|pindah|kirim|top\s*up)\s+(.*?)\s+ke\s+(.*?)\s+(?:dari|pake|pakai)\s+(.*)/i,
+    );
+    const matchC = text.match(
+      /(?:transfer|tf|pindah|kirim|top\s*up)\s+(.*?)\s+(?:dari|pake|pakai)\s+(.*?)\s+ke\s+(.*)/i,
+    );
+
+    let rawAmount = "";
+    let sourceName = "";
+    let destName = "";
+    let hasTransferMatch = false;
+
+    if (matchA) {
+      destName = matchA[1].trim();
+      rawAmount = matchA[2].trim();
+      sourceName = matchA[3].trim();
+      hasTransferMatch = true;
+    } else if (matchB && matchB[1].trim()) {
+      rawAmount = matchB[1].trim();
+      destName = matchB[2].trim();
+      sourceName = matchB[3].trim();
+      hasTransferMatch = true;
+    } else if (matchC) {
+      rawAmount = matchC[1].trim();
+      sourceName = matchC[2].trim();
+      destName = matchC[3].trim();
+      hasTransferMatch = true;
+    }
+
+    if (hasTransferMatch) {
+      const amount = parseIndonesianAmount(rawAmount);
+      if (!amount) {
+        return {
+          success: false,
+          intent: null,
+          ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: `Format nominal "${rawAmount}" tidak dikenali.` }],
+          missingFields: [{ fieldName: "amount", expectedFormat: "contoh: 50rb atau 50000" }],
+        };
+      }
+
+      const sourceMatch = matchAssetByName(sourceName, availableAssets);
+      const destMatch = matchAssetByName(destName, availableAssets);
+
+      // Case 1: Both are registered user assets -> Internal TRANSFER
+      if (sourceMatch && destMatch) {
+        const parseValidation = CreateTransferSchema.safeParse({
+          amount,
+          sourceAssetId: sourceMatch.assetId,
+          destinationAssetId: destMatch.assetId,
+        });
+
+        if (!parseValidation.success) {
+          return {
+            success: false,
+            intent: null,
+            ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: parseValidation.error.issues[0].message }],
+            missingFields: [],
+          };
+        }
+
+        return {
+          success: true,
+          intent: {
+            idempotencyKey: randomUUID(),
+            userId,
+            commandType: "CREATE_TRANSFER",
+            payload: parseValidation.data,
+          },
+          ambiguities,
+          missingFields: [],
+        };
+      }
+
+      // Case 2: Source asset exists, dest is external party -> EXPENSE
+      if (sourceMatch && !destMatch) {
+        const description = destName ? `tf ke ${destName}` : text;
+        const parseValidation = CreateExpenseSchema.safeParse({
+          amount,
+          sourceAssetId: sourceMatch.assetId,
+          description,
+        });
+
+        if (!parseValidation.success) {
+          return {
+            success: false,
+            intent: null,
+            ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: parseValidation.error.issues[0].message }],
+            missingFields: [],
+          };
+        }
+
+        return {
+          success: true,
+          intent: {
+            idempotencyKey: randomUUID(),
+            userId,
+            commandType: "CREATE_EXPENSE",
+            payload: parseValidation.data,
+          },
+          ambiguities,
+          missingFields: [],
+        };
+      }
+
+      // Case 3: Dest asset exists, source is external party -> INCOME
+      if (!sourceMatch && destMatch) {
+        const description = sourceName ? `tf dari ${sourceName}` : text;
+        const parseValidation = CreateIncomeSchema.safeParse({
+          amount,
+          destinationAssetId: destMatch.assetId,
+          description,
+        });
+
+        if (!parseValidation.success) {
+          return {
+            success: false,
+            intent: null,
+            ambiguities: [{ type: "INVALID_AMOUNT_FORMAT", message: parseValidation.error.issues[0].message }],
+            missingFields: [],
+          };
+        }
+
+        return {
+          success: true,
+          intent: {
+            idempotencyKey: randomUUID(),
+            userId,
+            commandType: "CREATE_INCOME",
+            payload: parseValidation.data,
+          },
+          ambiguities,
+          missingFields: [],
+        };
+      }
+
+      // Case 4: Neither asset exists -> Ambiguous
+      return {
+        success: false,
+        intent: null,
+        ambiguities: [{ type: "AMBIGUOUS_ASSET", message: `Asset "${sourceName}" atau "${destName}" tidak ditemukan.` }],
+        missingFields: [{ fieldName: "sourceAssetId", expectedFormat: "nama asset yang sudah terdaftar" }],
       };
     }
 

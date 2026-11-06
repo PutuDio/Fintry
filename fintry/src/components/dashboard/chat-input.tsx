@@ -41,7 +41,7 @@ export function ChatInput() {
             onChange={(e) => setMessage(e.target.value)}
             placeholder='Contoh: "beli kopi 25rb pake BCA" atau "gaji 5jt masuk ke Mandiri"'
             disabled={loading}
-            className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] py-2.5 pl-10 pr-3.5 font-mono text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none disabled:opacity-50"
+            className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] py-2.5 pl-10 pr-3.5 font-mono text-base md:text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none disabled:opacity-50"
           />
         </div>
         <button
