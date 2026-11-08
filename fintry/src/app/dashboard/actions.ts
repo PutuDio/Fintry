@@ -13,6 +13,7 @@ import {
 import {
   createAsset,
   updateAssetName,
+  updateAssetDetails,
   deactivateAsset,
   deleteAssetWithCascade,
 } from "@/infrastructure/repositories/assets";
@@ -34,7 +35,12 @@ export interface ActionResult {
   message: string;
 }
 
-export async function createAssetAction(name: string, type: AssetType, openingBalance: bigint) {
+export async function createAssetAction(
+  name: string,
+  type: AssetType,
+  openingBalance: bigint,
+  adminFee: bigint = 0n,
+) {
   const session = await getServerSession();
   if (!session) throw new Error("Unauthorized");
 
@@ -42,6 +48,7 @@ export async function createAssetAction(name: string, type: AssetType, openingBa
     userId: session.user.id,
     name: name.trim(),
     type,
+    adminFee: adminFee >= 0n ? adminFee : 0n,
   });
 
   if (openingBalance > 0n) {
@@ -154,9 +161,10 @@ export async function editTransactionAction(
   }
 }
 
-export async function editAssetNameAction(
+export async function editAssetAction(
   assetId: string,
   name: string,
+  adminFee?: bigint,
 ): Promise<ActionResult> {
   const session = await getServerSession();
   if (!session) throw new Error("Unauthorized");
@@ -164,20 +172,33 @@ export async function editAssetNameAction(
   if (!trimmed) {
     return { success: false, message: "Nama akun tidak boleh kosong." };
   }
+  if (adminFee !== undefined && adminFee < 0n) {
+    return { success: false, message: "Biaya admin tidak boleh bernilai negatif." };
+  }
   try {
-    const updated = await updateAssetName(db, session.user.id, assetId, trimmed);
+    const updated = await updateAssetDetails(db, session.user.id, assetId, {
+      name: trimmed,
+      adminFee,
+    });
     if (!updated) {
       return { success: false, message: "Akun tidak ditemukan." };
     }
     revalidatePath("/dashboard");
     revalidatePath("/dashboard/accounts");
-    return { success: true, message: "Nama akun berhasil diperbarui." };
+    return { success: true, message: "Pengaturan akun berhasil diperbarui." };
   } catch (err) {
     return {
       success: false,
-      message: err instanceof Error ? err.message : "Gagal memperbarui nama akun.",
+      message: err instanceof Error ? err.message : "Gagal memperbarui pengaturan akun.",
     };
   }
+}
+
+export async function editAssetNameAction(
+  assetId: string,
+  name: string,
+): Promise<ActionResult> {
+  return editAssetAction(assetId, name);
 }
 
 export async function reconcileAssetBalanceAction(

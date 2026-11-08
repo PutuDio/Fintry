@@ -25,6 +25,7 @@ interface AssetData {
   name: string;
   type: AssetType;
   currentValue: bigint;
+  adminFee: bigint;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -229,13 +230,20 @@ export function AccountsView({ assets, adjustments }: AccountsViewProps) {
                     </span>
                   </div>
 
-                  <div className="mt-5">
-                    <span className="text-[11px] uppercase tracking-wider text-[#C9D6E5]">
-                      Saldo Saat Ini
-                    </span>
-                    <p className="font-mono text-xl font-bold text-[#F2F5F8]">
-                      {formatIdr(asset.currentValue)}
-                    </p>
+                  <div className="mt-5 flex items-baseline justify-between">
+                    <div>
+                      <span className="text-[11px] uppercase tracking-wider text-[#C9D6E5]">
+                        Saldo Saat Ini
+                      </span>
+                      <p className="font-mono text-xl font-bold text-[#F2F5F8]">
+                        {formatIdr(asset.currentValue)}
+                      </p>
+                    </div>
+                    {asset.adminFee > 0n && (
+                      <span className="rounded-md border border-[#38BDF8]/30 bg-[#38BDF8]/10 px-2 py-0.5 font-mono text-[10px] text-[#38BDF8]">
+                        Admin: {formatIdr(asset.adminFee)}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -248,7 +256,7 @@ export function AccountsView({ assets, adjustments }: AccountsViewProps) {
                       className="inline-flex items-center gap-1.5 rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3 py-1.5 text-xs font-medium text-[#C9D6E5] hover:bg-[#163252] hover:text-[#F2F5F8]"
                     >
                       <Edit2 className="h-3.5 w-3.5" />
-                      Edit Nama
+                      Edit Akun
                     </button>
 
                     <button

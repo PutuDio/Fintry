@@ -1,11 +1,11 @@
-# Fintry v2.1.0 — AI Personal Finance Platform
+# Fintry v2.2.0 — AI Personal Finance Platform
 
 > **"Satu Chat. Kendali Penuh."**  
 > Kelola keuangan pribadi semudah mengirim pesan. Didukung oleh AI NLP berbatas tegas dan Financial Engine deterministik tanpa halusinasi matematis.
 
-[![Version](https://img.shields.io/badge/version-2.1.0-00E5A2.svg)](#)
+[![Version](https://img.shields.io/badge/version-2.2.0-00E5A2.svg)](#)
 [![Theme](https://img.shields.io/badge/theme-Ledger_Navy-123A63.svg)](#)
-[![Tests](https://img.shields.io/badge/tests-83%20passed-00E5A2.svg)](#)
+[![Tests](https://img.shields.io/badge/tests-87%20passed-00E5A2.svg)](#)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3-F2F5F8.svg)](#)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-38BDF8.svg)](#)
 
@@ -22,9 +22,10 @@ User Input → Chat AI Parser → Structured Intent → Application Validator �
 
 ---
 
-## 🌟 Fitur Utama (v2.1.0)
+## 🌟 Fitur Utama (v2.2.0)
 
 - **Tema Ledger Navy**: Antarmuka modern berstandar command-center finansial (`#0B1F3B`, `#123A63`, `#2F5D8C`, `#C9D6E5`, `#F2F5F8`).
+- **Biaya Admin Akun Otomatis & Transparan (v2.2.0)**: Pengaturan biaya admin per akun bank/e-wallet dengan pemotongan otomatis sebagai baris pengeluaran (`EXPENSE`) terpisah saat transaksi keluar atau transfer untuk audit riwayat dan laporan kategori yang jelas.
 - **Klasifikasi Transfer Pihak Ketiga Cerdas (v2.1.0)**: Parser NLP otomatis membedakan transfer internal antar-aset sendiri (`TRANSFER`), transfer keluar ke keluarga/pihak lain (`EXPENSE`), dan transfer masuk dari pihak luar (`INCOME`).
 - **Mobile Responsive & Anti Auto-Zoom (v2.0.1 - v2.1.0)**: Tata letak mobile responsif bersih dengan drawer menu hamburger dan input anti auto-zoom browser mobile.
 - **Sidebar Sticky Viewport**: Sidebar terpasang rapi (`md:sticky md:top-0 md:h-screen`), menjaga profil dan menu akun di bagian bawah tetap terlihat tanpa perlu scroll.

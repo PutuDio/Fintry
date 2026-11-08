@@ -15,7 +15,7 @@ type AssetRow = typeof assets.$inferSelect;
 
 export async function createAsset(
   db: Executor,
-  input: { userId: string; name: string; type: AssetType },
+  input: { userId: string; name: string; type: AssetType; adminFee?: bigint },
 ): Promise<AssetRow> {
   const [row] = await db.insert(assets).values(input).returning();
   return row;
@@ -100,18 +100,31 @@ export async function deactivateAsset(
   return rows[0] ?? null;
 }
 
+export async function updateAssetDetails(
+  tx: Executor,
+  userId: string,
+  assetId: string,
+  patch: { name?: string; adminFee?: bigint },
+): Promise<AssetRow | null> {
+  const updateData: Record<string, unknown> = { updatedAt: new Date() };
+  if (patch.name !== undefined) updateData.name = patch.name.trim();
+  if (patch.adminFee !== undefined) updateData.adminFee = patch.adminFee;
+
+  const rows = await tx
+    .update(assets)
+    .set(updateData)
+    .where(and(eq(assets.id, assetId), eq(assets.userId, userId)))
+    .returning();
+  return rows[0] ?? null;
+}
+
 export async function updateAssetName(
   tx: Executor,
   userId: string,
   assetId: string,
   name: string,
 ): Promise<AssetRow | null> {
-  const rows = await tx
-    .update(assets)
-    .set({ name: name.trim(), updatedAt: new Date() })
-    .where(and(eq(assets.id, assetId), eq(assets.userId, userId)))
-    .returning();
-  return rows[0] ?? null;
+  return updateAssetDetails(tx, userId, assetId, { name });
 }
 
 /**

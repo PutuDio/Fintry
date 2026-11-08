@@ -10,6 +10,7 @@ export function AddAssetDialog() {
   const [name, setName] = useState("");
   const [type, setType] = useState<AssetType>("BANK");
   const [openingBalance, setOpeningBalance] = useState("");
+  const [adminFee, setAdminFee] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,11 +21,13 @@ export function AddAssetDialog() {
 
     try {
       const balance = openingBalance.trim() ? BigInt(openingBalance.replace(/\D/g, "")) : 0n;
-      await createAssetAction(name, type, balance);
+      const fee = adminFee.trim() ? BigInt(adminFee.replace(/\D/g, "")) : 0n;
+      await createAssetAction(name, type, balance, fee);
       setOpen(false);
       setName("");
       setType("BANK");
       setOpeningBalance("");
+      setAdminFee("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Gagal menambahkan akun");
     } finally {
@@ -118,6 +121,31 @@ export function AddAssetDialog() {
               placeholder="0"
               className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 font-mono text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none"
             />
+          </div>
+          <div>
+            <label
+              htmlFor="add-asset-admin-fee"
+              className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
+            >
+              Biaya Admin Transaksi (opsional)
+            </label>
+            <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-[#C9D6E5]">
+                Rp
+              </span>
+              <input
+                id="add-asset-admin-fee"
+                type="text"
+                inputMode="numeric"
+                value={adminFee}
+                onChange={(e) => setAdminFee(formatInputAmount(e.target.value))}
+                placeholder="0"
+                className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] py-2.5 pl-10 pr-3.5 font-mono text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none"
+              />
+            </div>
+            <p className="mt-1 text-[11px] text-[#C9D6E5]">
+              Otomatis dipotong sebagai pengeluaran terpisah setiap kali transaksi keluar.
+            </p>
           </div>
 
           <div className="flex gap-3">

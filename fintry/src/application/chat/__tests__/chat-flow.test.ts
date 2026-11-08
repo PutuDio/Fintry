@@ -10,7 +10,7 @@ let userId: string;
 let bcaId: string;
 let gopayId: string;
 let bibitId: string;
-
+let mandiriId: string;
 beforeAll(async () => {
   userId = await seedUser("chat-flow");
   const bca = await createAsset(testDb, { userId, name: "BCA", type: "BANK" });
@@ -23,12 +23,26 @@ beforeAll(async () => {
   bcaId = bca.id;
   gopayId = gopay.id;
   bibitId = bibit.id;
+  const mandiri = await createAsset(testDb, {
+    userId,
+    name: "Mandiri",
+    type: "BANK",
+    adminFee: 1000n,
+  });
+  mandiriId = mandiri.id;
 
   // Saldo awal BCA: 100_000n
   await executeCreateOpeningBalance(testDb, {
     userId,
     assetId: bcaId,
     amount: 100_000n,
+    idempotencyKey: randomUUID(),
+  });
+  // Saldo awal Mandiri: 50_000n
+  await executeCreateOpeningBalance(testDb, {
+    userId,
+    assetId: mandiriId,
+    amount: 50_000n,
     idempotencyKey: randomUUID(),
   });
 });
@@ -104,5 +118,45 @@ describe("Stage 14: Chat-to-Intent Flow Integration", () => {
     const res = await processChatMessage(testDb, userId, "beli mobil 100jt pake BCA");
     expect(res.success).toBe(false);
     expect(res.message).toContain("Gagal memproses transaksi");
+  });
+
+  it("expense dengan admin fee otomatis memotong biaya admin terpisah", async () => {
+    const res = await processChatMessage(testDb, userId, "beli pulsa 20rb pake Mandiri");
+    expect(res.success).toBe(true);
+    expect(res.message).toContain("biaya admin Rp1.000");
+
+    const mandiri = await getAssetById(testDb, userId, mandiriId);
+    // Saldo awal 50.000 - 20.000 - 1.000 = 29.000
+    expect(mandiri?.currentValue).toBe(29_000n);
+  });
+
+  it("transfer dengan admin fee memotong biaya admin pada akun sumber", async () => {
+    const res = await processChatMessage(testDb, userId, "transfer 10rb dari Mandiri ke GoPay");
+    expect(res.success).toBe(true);
+    expect(res.message).toContain("biaya admin Rp1.000");
+
+    const mandiri = await getAssetById(testDb, userId, mandiriId);
+    // 29.000 - 10.000 - 1.000 = 18.000
+    expect(mandiri?.currentValue).toBe(18_000n);
+  });
+
+  it("anti-recursion: pencatatan biaya admin langsung tidak dikenakan admin fee berulang", async () => {
+    const res = await processChatMessage(testDb, userId, "biaya admin 1000 pake Mandiri");
+    expect(res.success).toBe(true);
+    expect(res.message).not.toContain("+ biaya admin");
+
+    const mandiri = await getAssetById(testDb, userId, mandiriId);
+    // 18.000 - 1.000 = 17.000 (tidak kena 2.000)
+    expect(mandiri?.currentValue).toBe(17_000n);
+  });
+
+  it("saldo tidak mencukupi untuk biaya admin + pokok ditolak", async () => {
+    // Saldo saat ini 17.000. Coba pengeluaran 16.500 (butuh 17.500 dengan fee)
+    const res = await processChatMessage(testDb, userId, "beli makan 16500 pake Mandiri");
+    expect(res.success).toBe(false);
+    expect(res.message).toContain("tidak mencukupi");
+
+    const mandiri = await getAssetById(testDb, userId, mandiriId);
+    expect(mandiri?.currentValue).toBe(17_000n);
   });
 });

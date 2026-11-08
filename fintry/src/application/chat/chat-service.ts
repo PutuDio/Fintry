@@ -87,6 +87,22 @@ export async function processChatMessage(
     switch (intent.commandType) {
       case "CREATE_EXPENSE": {
         const payload = intent.payload as CreateExpensePayload;
+        const asset = assetMap.get(payload.sourceAssetId);
+        const assetName = asset?.name ?? "Akun";
+        const adminFee = asset?.adminFee ?? 0n;
+
+        const isSelfAdminFee =
+          Boolean(payload.description && /biaya admin|admin fee/i.test(payload.description)) ||
+          payload.category === "Biaya Admin";
+
+        const shouldChargeAdmin = adminFee > 0n && !isSelfAdminFee;
+
+        if (shouldChargeAdmin && asset && asset.currentValue < payload.amount + adminFee) {
+          throw new Error(
+            `Saldo "${assetName}" tidak mencukupi untuk pengeluaran (${formatIdr(payload.amount)}) dan biaya admin (${formatIdr(adminFee)}). Saldo saat ini: ${formatIdr(asset.currentValue)}.`,
+          );
+        }
+
         const res = await executeCreateExpense(db, {
           userId,
           sourceAssetId: payload.sourceAssetId,
@@ -97,15 +113,29 @@ export async function processChatMessage(
           idempotencyKey: intent.idempotencyKey,
         });
 
-        const asset = assetMap.get(res.sourceAssetId);
-        const assetName = asset?.name ?? "Akun";
+        let finalBalance = res.balanceAfter;
+        if (shouldChargeAdmin) {
+          const adminRes = await executeCreateExpense(db, {
+            userId,
+            sourceAssetId: payload.sourceAssetId,
+            amount: adminFee,
+            description: `Biaya admin ${assetName}`,
+            category: "Biaya Admin",
+            transactionDate: payload.transactionDate,
+            idempotencyKey: `${intent.idempotencyKey}:admin_fee`,
+          });
+          finalBalance = adminRes.balanceAfter;
+        }
+
+        const adminFeeMsg = shouldChargeAdmin ? ` + biaya admin ${formatIdr(adminFee)}` : "";
+
         return {
           success: true,
           commandType: "CREATE_EXPENSE",
           transactionId: res.transactionId,
-          message: `Berhasil catat pengeluaran ${formatIdr(payload.amount)} dari ${assetName}. Sisa saldo: ${formatIdr(res.balanceAfter)}.`,
+          message: `Berhasil catat pengeluaran ${formatIdr(payload.amount)} dari ${assetName}${adminFeeMsg}. Sisa saldo: ${formatIdr(finalBalance)}.`,
           affectedAssets: [
-            { id: res.sourceAssetId, name: assetName, balanceAfter: res.balanceAfter },
+            { id: res.sourceAssetId, name: assetName, balanceAfter: finalBalance },
           ],
         };
       }
@@ -141,6 +171,20 @@ export async function processChatMessage(
 
       case "CREATE_TRANSFER": {
         const payload = intent.payload as CreateTransferPayload;
+        const srcAsset = assetMap.get(payload.sourceAssetId);
+        const destAsset = assetMap.get(payload.destinationAssetId);
+        const srcName = srcAsset?.name ?? "Sumber";
+        const destName = destAsset?.name ?? "Tujuan";
+        const adminFee = srcAsset?.adminFee ?? 0n;
+
+        const shouldChargeAdmin = adminFee > 0n;
+
+        if (shouldChargeAdmin && srcAsset && srcAsset.currentValue < payload.amount + adminFee) {
+          throw new Error(
+            `Saldo "${srcName}" tidak mencukupi untuk transfer (${formatIdr(payload.amount)}) dan biaya admin (${formatIdr(adminFee)}). Saldo saat ini: ${formatIdr(srcAsset.currentValue)}.`,
+          );
+        }
+
         const res = await executeCreateTransfer(db, {
           userId,
           sourceAssetId: payload.sourceAssetId,
@@ -151,22 +195,33 @@ export async function processChatMessage(
           idempotencyKey: intent.idempotencyKey,
         });
 
-        const srcAsset = assetMap.get(res.sourceAssetId);
-        const destAsset = assetMap.get(res.destinationAssetId);
-        const srcName = srcAsset?.name ?? "Sumber";
-        const destName = destAsset?.name ?? "Tujuan";
+        let finalSourceBalance = res.sourceBalanceAfter;
+        if (shouldChargeAdmin) {
+          const adminRes = await executeCreateExpense(db, {
+            userId,
+            sourceAssetId: payload.sourceAssetId,
+            amount: adminFee,
+            description: `Biaya admin transfer ${srcName}`,
+            category: "Biaya Admin",
+            transactionDate: payload.transactionDate,
+            idempotencyKey: `${intent.idempotencyKey}:admin_fee`,
+          });
+          finalSourceBalance = adminRes.balanceAfter;
+        }
 
         const actionText = res.isInvestmentPurchase
           ? "pembelian investasi"
           : "transfer";
 
+        const adminFeeMsg = shouldChargeAdmin ? ` + biaya admin ${formatIdr(adminFee)}` : "";
+
         return {
           success: true,
           commandType: "CREATE_TRANSFER",
           transactionId: res.transactionId,
-          message: `Berhasil catat ${actionText} ${formatIdr(payload.amount)} dari ${srcName} ke ${destName}. Sisa saldo ${srcName}: ${formatIdr(res.sourceBalanceAfter)}, saldo ${destName}: ${formatIdr(res.destinationBalanceAfter)}.`,
+          message: `Berhasil catat ${actionText} ${formatIdr(payload.amount)} dari ${srcName} ke ${destName}${adminFeeMsg}. Sisa saldo ${srcName}: ${formatIdr(finalSourceBalance)}, saldo ${destName}: ${formatIdr(res.destinationBalanceAfter)}.`,
           affectedAssets: [
-            { id: res.sourceAssetId, name: srcName, balanceAfter: res.sourceBalanceAfter },
+            { id: res.sourceAssetId, name: srcName, balanceAfter: finalSourceBalance },
             {
               id: res.destinationAssetId,
               name: destName,

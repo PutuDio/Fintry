@@ -38,6 +38,9 @@ export const assets = pgTable(
     currentValue: bigint("current_value", { mode: "bigint" })
       .notNull()
       .default(sql`0`),
+    adminFee: bigint("admin_fee", { mode: "bigint" })
+      .notNull()
+      .default(sql`0`),
     currency: text("currency").notNull().default("IDR"),
     isActive: boolean("is_active").notNull().default(true),
     createdAt: timestamptz("created_at").notNull().defaultNow(),
@@ -67,6 +70,10 @@ export const assets = pgTable(
     check(
       "assets_current_value_non_negative_ck",
       sql`${table.currentValue} >= 0`,
+    ),
+    check(
+      "assets_admin_fee_non_negative_ck",
+      sql`${table.adminFee} >= 0`,
     ),
   ],
 );

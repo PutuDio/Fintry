@@ -24,7 +24,7 @@ export class SimpleRulesParser implements TransactionParser {
   isSupported(message: string): boolean {
     const msg = message.toLowerCase();
     // Keywords indicating financial actions
-    const hasExpenseAction = /\b(beli|bayar|makan|keluar|ongkos|jajan|belanja|parkir)\b/.test(msg);
+    const hasExpenseAction = /\b(beli|bayar|makan|keluar|ongkos|jajan|belanja|parkir|biaya|admin)\b/.test(msg);
     const hasIncomeAction = /\b(gaji|masuk|dapat|terima|bonus|hasil)\b/.test(msg);
     const hasTransferAction = /\b(transfer|tf|pindah|kirim|topup|top up)\b/.test(msg);
     const hasAmount = /\d+\s*(?:rb|ribu|k|jt|juta)?\b/.test(msg);

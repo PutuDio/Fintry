@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { editAssetNameAction } from "@/app/dashboard/actions";
+import { editAssetAction } from "@/app/dashboard/actions";
+import { formatInputAmount, parseFormattedAmount } from "@/lib/format-input";
 
 interface EditAssetDialogProps {
   asset: {
     id: string;
     name: string;
+    adminFee?: bigint;
   };
   isOpen: boolean;
   onClose: () => void;
@@ -14,6 +16,9 @@ interface EditAssetDialogProps {
 
 export function EditAssetDialog({ asset, isOpen, onClose }: EditAssetDialogProps) {
   const [name, setName] = useState(asset.name);
+  const [adminFee, setAdminFee] = useState(
+    asset.adminFee && asset.adminFee > 0n ? formatInputAmount(asset.adminFee.toString()) : "",
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +30,8 @@ export function EditAssetDialog({ asset, isOpen, onClose }: EditAssetDialogProps
     setLoading(true);
 
     try {
-      const res = await editAssetNameAction(asset.id, name);
+      const feeBigInt = parseFormattedAmount(adminFee);
+      const res = await editAssetAction(asset.id, name, feeBigInt);
       if (!res.success) {
         setError(res.message);
       } else {
@@ -47,7 +53,7 @@ export function EditAssetDialog({ asset, isOpen, onClose }: EditAssetDialogProps
         className="w-full max-w-md rounded-xl border border-[#2F5D8C] bg-[#123A63] p-6 shadow-2xl text-[#F2F5F8]"
       >
         <h2 id="edit-asset-title" className="mb-4 text-lg font-bold text-[#F2F5F8]">
-          Edit Nama Akun
+          Edit Pengaturan Akun
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,6 +80,31 @@ export function EditAssetDialog({ asset, isOpen, onClose }: EditAssetDialogProps
               required
               className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] px-3.5 py-2.5 text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none"
             />
+          </div>
+          <div>
+            <label
+              htmlFor="edit-asset-admin-fee"
+              className="block text-xs font-semibold uppercase tracking-wider text-[#C9D6E5] mb-1.5"
+            >
+              Biaya Admin Transaksi (Opsional)
+            </label>
+            <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-[#C9D6E5]">
+                Rp
+              </span>
+              <input
+                id="edit-asset-admin-fee"
+                type="text"
+                inputMode="numeric"
+                value={adminFee}
+                onChange={(e) => setAdminFee(formatInputAmount(e.target.value))}
+                placeholder="0"
+                className="w-full rounded-lg border border-[#2F5D8C] bg-[#0B1F3B] py-2.5 pl-10 pr-3.5 font-mono text-sm text-[#F2F5F8] placeholder-zinc-500 focus:border-[#00E5A2] focus:outline-none"
+              />
+            </div>
+            <p className="mt-1 text-[11px] text-[#C9D6E5]">
+              Otomatis dipotong sebagai baris pengeluaran terpisah setiap kali transaksi keluar.
+            </p>
           </div>
 
           <div className="flex justify-end gap-3 pt-2">
